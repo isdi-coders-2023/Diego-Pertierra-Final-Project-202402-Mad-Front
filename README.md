@@ -1,27 +1,68 @@
-# Uniteam
+# Week 9 - Proyecto final
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.1.
+Realiza una app fullstack JS (Angular, Node, Express (o Nest) SQL) con las siguientes características deseables:
 
-## Development server
+## Funcionalidad
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Listado de items
+- Detalle de item (página aparte)
+- Crear item (página aparte con un formulario e imagen obligatoria con un campo tipo file)
+- Modificar item (mismo formulario que para crear)
+- Borrar item (se tiene que poder borrar desde el listado)
+- Paginación (puede ser el sistema clásico o un botón "Load more")
+- Filtros (en el propio listado, que filtre sin cambiar de página)
+- Login y registro de usuario
+- Feedbacks al usuario
+- Gestión de errores
+- Cloudinary (o similar) para los archivos binarios
 
-## Code scaffolding
+### Tipos básicos
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- RedSocial
+- eCommerce (roles de usuario: admin, user)
 
-## Build
+## Requisitos Frontend
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Mobile First (responsive), incluso Mobile Only (dependiendo del proyecto)
+- TypeScript
+- Angular + gestión del estado centralizado con Observables o Signal (Flux)
+- tests unitarios / de componentes (opcionalmente snapshot)
+- tests de integración
+- README con información sobre la app
+- 100% coverage
+- 0 deuda técnica (e.g. en Sonar)
+- Lighthouse con métricas en verde
 
-## Running unit tests
+## Requisitos Backend
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- TypeScript
+- Node + Express (o Nest)
+- auth con JWT
+- tests unitarios
+- tests de endpoints (supertest)
+- guardado de archivos binarios en disco duro (temp) y Cloudinary (o similar)
 
-## Running end-to-end tests
+- validación de requests con Joi o Nest Validator
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- README con información de uso y con endpoints (de cada endpoint método, url, body y response)
+- 100% coverage
+- 0 deuda técnica (e.g. en Sonar)
+- Colección de endpoints de Postman exportada como JSON (en el root del proyecto)
 
-## Further help
+## E2E
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Proceso de login de usuario testado con Cypress
+
+## Check diario
+
+- daily meeting (qué tareas hice ayer, qué stoppers tuve, qué tareas haré hoy)
+- informes de sonar sobre la rama principal, front y back
+- > = 80% cover
+
+## Challenge inicial
+
+- Figma
+- Responsabilidades de los componentes
+- Entities y relaciones
+- Rutas del backend
+- Trello (backlog completo)
