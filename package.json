@@ -6,8 +6,13 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "lint": "ng lint"
+    "test": "ng test --code-coverage --browsers=ChromeHeadless",
+    "test:prod": "ng test --code-coverage --no-watch --browsers=ChromeHeadless",
+    "lint": "ng lint",
+    "prepare": "husky"
+  },
+  "prettier": {
+    "singleQuote": true
   },
   "private": true,
   "dependencies": {
@@ -19,11 +24,14 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+    "husky": "^9.0.11",
+    "karma-mocha-reporter": "^2.2.5",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "^17.3.6",
     "@angular-eslint/builder": "17.3.0",
     "@angular-eslint/eslint-plugin": "17.3.0",
     "@angular-eslint/eslint-plugin-template": "17.3.0",
