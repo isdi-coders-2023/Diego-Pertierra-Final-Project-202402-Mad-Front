@@ -6,5 +6,5 @@
     "types": ["jasmine"]
   },
   "include": ["src/**/*.spec.ts", "src/**/*.d.ts"],
-  "exclude": ["src/**/*.routes.ts"]
+  "exclude": ["src/app/app.routes.ts"]
 }
