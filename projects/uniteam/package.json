@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "test:prod": "ng test --code-coverage --no-watch --browsers=ChromeHeadless"
+  }
+}
