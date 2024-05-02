@@ -5,9 +5,7 @@ import { RouterOutlet } from '@angular/router';
   selector: 'isdi-root',
   standalone: true,
   imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  template: `<router-outlet />`,
+  styleUrl: './app.component.css',
 })
-export class AppComponent {
-  title = 'uniteam';
-}
+export class AppComponent {}
