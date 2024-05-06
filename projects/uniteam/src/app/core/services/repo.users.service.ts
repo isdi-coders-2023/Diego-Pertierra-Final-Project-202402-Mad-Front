@@ -8,7 +8,7 @@ import { UserLoginDto } from '../models/user.model';
 })
 export class RepoUsersService {
   httpClient = inject(HttpClient);
-  url = environment.apiUrl + `/users`;
+  url = environment.API_URL + `/users`;
 
   login(data: UserLoginDto) {
     return this.httpClient.post<{ token: string }>(this.url + '/login', data);
