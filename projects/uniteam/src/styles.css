@@ -1,7 +1,25 @@
+:root {
+  --ut-white: #f9fff9;
+  --ut-black: #08160a;
+  --ut-green: #47b16f;
+  --ut-dark-green: #097d5a;
+  --ut-light-green: #b0f0a0;
+  --gradient: linear-gradient(
+    0deg,
+    rgba(71, 177, 111, 1) 0%,
+    rgba(9, 125, 90, 1) 100%
+  );
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
+  font-family: 'Montserrat', monospace;
+}
+
+a {
+  text-decoration: none;
 }

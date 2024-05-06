@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuComponent } from '../menu/menu.component';
-import { MenuOption } from '../../../core/model/menu-option';
+import { MenuOption } from '../../../core/models/menu-option';
 import { StateService } from '../../../core/services/state.service';
 
 @Component({
@@ -15,5 +15,6 @@ export class HeaderComponent {
 
   constructor(private stateSrv: StateService) {
     this.menuOptions = this.stateSrv.setRoutes();
+    console.log(this.menuOptions);
   }
 }
