@@ -15,6 +15,5 @@ export class HeaderComponent {
 
   constructor(private stateSrv: StateService) {
     this.menuOptions = this.stateSrv.setRoutes();
-    console.log(this.menuOptions);
   }
 }
