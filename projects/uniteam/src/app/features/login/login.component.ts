@@ -3,24 +3,64 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RepoUsersService } from '../../core/services/repo.users.service';
 import { StateService } from '../../core/services/state.service';
 import { UserLoginDto } from '../../core/models/user.model';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { SubmitBtnComponent } from '../shared/submit-btn/submit-btn.component';
 
 @Component({
   selector: 'isdi-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
-  template: `<form [formGroup]="formLogin" (ngSubmit)="submit()">
-    <div>
-      <label for="user">Username / email</label>
-      <input id="user" type="text" formControlName="user" />
-    </div>
-    <div>
-      <label for="password">Password</label>
-      <input id="password" type="password" formControlName="password" />
-    </div>
-
-    <button type="submit" [disabled]="formLogin.invalid">Submit</button>
-  </form>`,
+  imports: [ReactiveFormsModule, RouterModule, SubmitBtnComponent],
+  template: `
+    <form [formGroup]="formLogin" (ngSubmit)="submit()">
+      <section>
+        <a href="#" [routerLink]="'/landing'">
+          <img
+            src="assets/img/icons/close.svg"
+            class="close-btn"
+            alt="Icono de cerrar formulario"
+            width="30"
+          />
+        </a>
+        <h1>
+          <img
+            src="assets/img/logo-with-text.svg"
+            alt="Logo de Uniteam"
+            width="80"
+          />
+        </h1>
+        <h2>Inicio de sesión</h2>
+        <p>
+          ¿Aún no tienes usuario? <a [routerLink]="'/register'">Regístrate</a>
+        </p>
+      </section>
+      <div>
+        <label for="user"><h3>Usuario / Email</h3></label>
+        <input
+          id="user"
+          type="text"
+          placeholder="Introduce tu usuario o email"
+          formControlName="user"
+        />
+      </div>
+      <div>
+        <label for="password"><h3>Contraseña</h3></label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Introduce tu contraseña"
+          formControlName="password"
+        />
+      </div>
+      <div>
+        <input id="remember" type="checkbox" />
+        <label for="remember">Recuérdame</label>
+      </div>
+      <isdi-submit-btn
+        [label]="'Iniciar sesión'"
+        [disabled]="formLogin.invalid"
+      />
+    </form>
+  `,
   styleUrl: './login.component.css',
 })
 export default class LoginComponent {

@@ -53,6 +53,7 @@ export class StateService {
 
   setLogin(token: string) {
     try {
+      console.log(token);
       const currentPayload = jwtDecode(token) as Payload;
       localStorage.setItem('TFD', JSON.stringify({ token }));
       this.repoUsers.getById(currentPayload.id).subscribe((user) => {

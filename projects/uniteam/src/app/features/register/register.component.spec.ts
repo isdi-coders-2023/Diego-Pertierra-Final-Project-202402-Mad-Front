@@ -3,18 +3,19 @@ import RegisterComponent from './register.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RepoUsersService } from '../../core/services/repo.users.service';
-import { Router } from '@angular/router';
+import { Router, Routes, provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
   let mockRepoUsersService: jasmine.SpyObj<RepoUsersService>;
-  let mockRouter: jasmine.SpyObj<Router>;
+  let usersService: RepoUsersService;
+  let router: Router;
 
   beforeEach(async () => {
     mockRepoUsersService = jasmine.createSpyObj('RepoUsersService', ['create']);
-    mockRouter = jasmine.createSpyObj('Router', ['navigate']);
+    //mockRouter = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
       imports: [
@@ -23,15 +24,17 @@ describe('RegisterComponent', () => {
         ReactiveFormsModule,
       ],
       providers: [
+        provideRouter([] as Routes),
         FormBuilder,
         { provide: RepoUsersService, useValue: mockRepoUsersService },
-        { provide: Router, useValue: mockRouter },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
-
+    usersService = TestBed.inject(RepoUsersService);
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate').and.callThrough();
     mockRepoUsersService.create.and.callFake(() => {
       return of({});
     });
@@ -81,10 +84,8 @@ describe('RegisterComponent', () => {
 
     component.onSubmit();
 
-    expect(mockRepoUsersService.create).toHaveBeenCalledWith(
-      jasmine.any(FormData)
-    );
+    expect(usersService.create).toHaveBeenCalledWith(jasmine.any(FormData));
 
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']);
+    expect(router.navigate).toHaveBeenCalledWith(['/login']);
   });
 });

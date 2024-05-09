@@ -5,6 +5,5 @@
     "outDir": "../../out-tsc/spec",
     "types": ["jasmine"]
   },
-  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"],
-  "exclude": ["src/app/app.routes.ts"]
+  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
 }

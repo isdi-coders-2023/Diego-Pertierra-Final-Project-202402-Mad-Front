@@ -1,15 +1,65 @@
 :host {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  background: rgb(8, 35, 42);
+  background: linear-gradient(
+    0deg,
+    rgba(8, 35, 42, 1) 0%,
+    rgba(9, 125, 90, 1) 100%
+  );
 
   .form-control {
     width: 100%;
   }
 }
 
-input,
-label,
-select {
-  display: block;
+form {
+  margin-block: 2rem;
+  padding-block: 2rem 2rem;
+  padding-inline: 1.5rem;
+  background-color: #eef1ef;
+  border-radius: 1rem;
+
+  h1,
+  h2,
+  p {
+    text-align: center;
+  }
+
+  h3 {
+    margin-block: 0.7rem 0rem;
+  }
+
+  section {
+    position: relative;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: -30px;
+    right: 0;
+  }
+
+  input,
+  label,
+  select {
+    display: block;
+  }
+}
+
+input {
+  width: 100%;
+  margin-block: 0.5rem;
+  padding-block: 0.6rem;
+  border-radius: 0.4rem;
+  border: grey solid 0.1px;
+  padding-inline-start: 1rem;
+}
+
+input[type='checkbox'],
+label {
+  display: inline-block;
+  width: initial;
 }
