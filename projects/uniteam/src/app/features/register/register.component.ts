@@ -31,10 +31,6 @@ import { SubmitBtnComponent } from '../shared/submit-btn/submit-btn.component';
             width="80"
           />
         </h1>
-        <h2>Inicio de sesión</h2>
-        <p>
-          ¿Aún no tienes usuario? <a [routerLink]="'/register'">Regístrate</a>
-        </p>
       </section>
       <h2>Registro de usuario</h2>
       <div class="form-control">
@@ -55,11 +51,24 @@ import { SubmitBtnComponent } from '../shared/submit-btn/submit-btn.component';
           <input type="password" formControlName="password" />
         </label>
       </div>
-      <div class="form-control">
+      <div class="form-control file-control">
         <label class="custom-file-upload">
           <span>Avatar</span>
-          <input type="file" #avatar (change)="onFileChange()" />
+          <input
+            class="custom-file-input"
+            type="file"
+            #avatar
+            (change)="onFileChange()"
+          />
         </label>
+        @if (imageUrl) {
+        <img
+          class="input-img"
+          src="{{ imageUrl }}"
+          alt="Selected Image"
+          width="70"
+        />
+        }
       </div>
       <div class="form-control">
         <label>
@@ -77,7 +86,7 @@ import { SubmitBtnComponent } from '../shared/submit-btn/submit-btn.component';
         <label>
           <span>Género</span>
           <select name="gender" formControlName="gender">
-            <option value="">--Elige una opción--</option>
+            <option value="">-- Elige una opción --</option>
             <option value="male">Masculino</option>
             <option value="female">Femenino</option>
             <option value="unspecified">Prefiero no especificar</option>
@@ -103,9 +112,12 @@ export default class RegisterComponent {
   private repo = inject(RepoUsersService);
   private router = inject(Router);
   registerForm: FormGroup;
+  imageUrl: string | null = null;
   @ViewChild('avatar') avatar!: ElementRef;
 
   constructor() {
+    this.imageUrl =
+      'https://res.cloudinary.com/dehkeqyua/image/upload/w_80,h_80,c_fill/v1715275478/uniteam/sample.jpg';
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', Validators.required],
@@ -122,6 +134,11 @@ export default class RegisterComponent {
     const htmlElement: HTMLInputElement = this.avatar.nativeElement;
     const file = htmlElement.files![0];
     console.log(file);
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imageUrl = reader.result as string;
+    };
+    reader.readAsDataURL(file);
     this.registerForm.patchValue({ avatar: file });
   }
 

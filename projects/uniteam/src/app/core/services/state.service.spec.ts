@@ -3,7 +3,6 @@ import { Payload, StateService, UserState } from './state.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RepoUsersService } from './repo.users.service';
 import { Observable, of } from 'rxjs';
-import jwtEncode from 'jwt-encode';
 
 describe('StateService', () => {
   let stateService: StateService;
@@ -54,20 +53,20 @@ describe('StateService', () => {
 
   it('should set login', () => {
     const payload = { id: 'mockId', exp: 1234567890 };
-    const token = jwtEncode(payload, 'mockSecretKey');
+    spyOn(stateService, 'jwtDecode').and.returnValue(payload);
 
     const mockUser = { id: 'mockId', name: 'John Doe' };
     spyOn(localStorage, 'setItem');
     repoUsersService.getById.and.returnValue(of(mockUser));
-    stateService.setLogin(token);
+    stateService.setLogin('token');
     stateService.getUserState().subscribe((state: UserState) => {
       expect(state.loginState).toEqual('logged');
-      expect(state.token).toEqual(token);
+      expect(state.token).toEqual('token');
       expect(state.currentPayload).toEqual(payload as Payload);
       expect(state.currentUser).toEqual(mockUser);
       expect(localStorage.setItem).toHaveBeenCalledWith(
         'TFD',
-        JSON.stringify({ token })
+        JSON.stringify({ token: 'token' })
       );
     });
   });
@@ -93,5 +92,16 @@ describe('StateService', () => {
   it('should return user state observable', () => {
     const userState$ = stateService.getUserState();
     expect(userState$).toEqual(jasmine.any(Observable));
+  });
+
+  it('should construct image URL correctly', () => {
+    const url = 'https://example.com/upload/image.jpg';
+    const width = '300';
+    const height = '300';
+    const expectedUrl =
+      'https://example.com/upload/c_fill,w_300,h_300/image.jpg';
+    expect(stateService.constructImageUrl(url, width, height)).toEqual(
+      expectedUrl
+    );
   });
 });

@@ -31,6 +31,7 @@ const initialState: UserState = {
 export class StateService {
   private userState$ = new BehaviorSubject<UserState>(initialState);
   private repoUsers = inject(RepoUsersService);
+  jwtDecode = jwtDecode;
 
   constructor() {
     const storedToken = localStorage.getItem('TFD');
@@ -54,7 +55,7 @@ export class StateService {
   setLogin(token: string) {
     try {
       console.log(token);
-      const currentPayload = jwtDecode(token) as Payload;
+      const currentPayload = this.jwtDecode(token) as Payload;
       localStorage.setItem('TFD', JSON.stringify({ token }));
       this.repoUsers.getById(currentPayload.id).subscribe((user) => {
         this.userState$.next({
@@ -90,5 +91,14 @@ export class StateService {
       token: null,
       currentPayload: null,
     });
+  }
+
+  constructImageUrl(url: string, width: string, height: string) {
+    const urlParts = url.split('/upload/');
+    const firstPart = urlParts[0] + '/upload/';
+    const secondPart = urlParts[1];
+    return (
+      firstPart + 'c_fill,' + 'w_' + width + ',h_' + height + '/' + secondPart
+    );
   }
 }
