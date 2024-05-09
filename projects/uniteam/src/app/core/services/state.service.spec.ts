@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { StateService } from './state.service';
+import { Payload, StateService, UserState } from './state.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RepoUsersService } from './repo.users.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import jwtEncode from 'jwt-encode';
 
 describe('StateService', () => {
   let stateService: StateService;
@@ -49,6 +50,32 @@ describe('StateService', () => {
   it('should set login state', () => {
     stateService.setLoginState('logging');
     expect(stateService.userState.loginState).toEqual('logging');
+  });
+
+  it('should set login', () => {
+    const payload = { id: 'mockId', exp: 1234567890 };
+    const token = jwtEncode(payload, 'mockSecretKey');
+
+    const mockUser = { id: 'mockId', name: 'John Doe' };
+    spyOn(localStorage, 'setItem');
+    repoUsersService.getById.and.returnValue(of(mockUser));
+    stateService.setLogin(token);
+    stateService.getUserState().subscribe((state: UserState) => {
+      expect(state.loginState).toEqual('logged');
+      expect(state.token).toEqual(token);
+      expect(state.currentPayload).toEqual(payload as Payload);
+      expect(state.currentUser).toEqual(mockUser);
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        'TFD',
+        JSON.stringify({ token })
+      );
+    });
+  });
+
+  it('should set loginState to error if token is invalid', () => {
+    spyOn(localStorage, 'setItem');
+    stateService.setLogin('token');
+    expect(stateService.userState.loginState).toBe('error');
   });
 
   it('should set logout', () => {

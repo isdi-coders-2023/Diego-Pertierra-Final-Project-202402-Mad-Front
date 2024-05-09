@@ -3,7 +3,7 @@ import LoginComponent from './login.component';
 import { StateService } from '../../core/services/state.service';
 import { Observable, of } from 'rxjs';
 import { RepoUsersService } from '../../core/services/repo.users.service';
-import { Router } from '@angular/router';
+import { Router, provideRouter } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 describe('LoginComponent', () => {
@@ -11,7 +11,7 @@ describe('LoginComponent', () => {
   let fixture: ComponentFixture<LoginComponent>;
   let repoUsersServiceMock: jasmine.SpyObj<RepoUsersService>;
   let stateServiceMock: jasmine.SpyObj<StateService>;
-  let routerMock: jasmine.SpyObj<Router>;
+  let router: Router;
 
   beforeEach(async () => {
     repoUsersServiceMock = jasmine.createSpyObj('RepoUsersService', ['login']);
@@ -19,11 +19,11 @@ describe('LoginComponent', () => {
       'setLogin',
       'setLoginState',
     ]);
-    routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
       imports: [LoginComponent, ReactiveFormsModule],
       providers: [
+        provideRouter([]),
         {
           provide: StateService,
           useValue: stateServiceMock,
@@ -32,12 +32,13 @@ describe('LoginComponent', () => {
           provide: RepoUsersService,
           useValue: repoUsersServiceMock,
         },
-        { provide: Router, useValue: routerMock },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate').and.callThrough();
     fixture.detectChanges();
   });
 
@@ -60,7 +61,7 @@ describe('LoginComponent', () => {
       password: 'testPassword',
     });
     expect(stateServiceMock.setLogin).toHaveBeenCalledOnceWith(token);
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/home']);
+    expect(router.navigate).toHaveBeenCalledWith(['/home']);
   });
 
   it('should set login state to "error" if login fails', () => {
@@ -82,7 +83,7 @@ describe('LoginComponent', () => {
       password: 'testPassword',
     });
     expect(stateServiceMock.setLoginState).toHaveBeenCalledWith('error');
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/home']);
+    expect(router.navigate).toHaveBeenCalledWith(['/home']);
   });
 
   it('should pass email as part of login data if provided username is an email', () => {
@@ -100,6 +101,6 @@ describe('LoginComponent', () => {
       password: 'testPassword',
     });
     expect(stateServiceMock.setLogin).toHaveBeenCalledWith(token);
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/home']);
+    expect(router.navigate).toHaveBeenCalledWith(['/home']);
   });
 });

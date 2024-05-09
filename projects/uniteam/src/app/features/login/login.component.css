@@ -17,14 +17,29 @@
 }
 
 form {
-  padding-block: 1rem;
-  padding-inline: 1rem;
+  padding-block: 2rem 2rem;
+  padding-inline: 1.5rem;
   background-color: #eef1ef;
+  border-radius: 1rem;
 
   h1,
   h2,
   p {
     text-align: center;
+  }
+
+  h3 {
+    margin-block: 0.7rem 0rem;
+  }
+
+  section {
+    position: relative;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: -30px;
+    right: 0;
   }
 }
 
@@ -34,18 +49,17 @@ select {
   display: block;
 }
 
-button {
-  font-size: 1.3rem;
-  margin-block: 1rem;
-  padding-block: 0.8rem;
-  padding-inline: 3rem;
-  color: var(--ut-white);
-  background: rgb(71, 177, 111);
-  background: linear-gradient(
-    0deg,
-    rgba(71, 177, 111, 1) 0%,
-    rgba(9, 125, 90, 1) 100%
-  );
-  border: none;
-  border-radius: 2rem;
+input {
+  width: 100%;
+  margin-block: 0.5rem;
+  padding-block: 0.6rem;
+  border-radius: 0.4rem;
+  border: grey solid 0.1px;
+  padding-inline-start: 1rem;
+}
+
+input[type='checkbox'],
+label {
+  display: inline-block;
+  width: initial;
 }

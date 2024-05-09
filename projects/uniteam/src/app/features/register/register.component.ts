@@ -6,15 +6,37 @@ import {
   Validators,
 } from '@angular/forms';
 import { RepoUsersService } from '../../core/services/repo.users.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { SubmitBtnComponent } from '../shared/submit-btn/submit-btn.component';
 
 @Component({
   selector: 'isdi-register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterModule, SubmitBtnComponent],
   template: `
-    <h2>Registro de usuario</h2>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <section>
+        <a href="#" [routerLink]="'/landing'">
+          <img
+            src="assets/img/icons/close.svg"
+            class="close-btn"
+            alt="Icono de cerrar formulario"
+            width="30"
+          />
+        </a>
+        <h1>
+          <img
+            src="assets/img/logo-with-text.svg"
+            alt="Logo de Uniteam"
+            width="80"
+          />
+        </h1>
+        <h2>Inicio de sesión</h2>
+        <p>
+          ¿Aún no tienes usuario? <a [routerLink]="'/register'">Regístrate</a>
+        </p>
+      </section>
+      <h2>Registro de usuario</h2>
       <div class="form-control">
         <label>
           <span>Nombre de usuario</span>
@@ -34,7 +56,7 @@ import { Router } from '@angular/router';
         </label>
       </div>
       <div class="form-control">
-        <label>
+        <label class="custom-file-upload">
           <span>Avatar</span>
           <input type="file" #avatar (change)="onFileChange()" />
         </label>
@@ -68,7 +90,10 @@ import { Router } from '@angular/router';
           <input type="text" formControlName="bio" />
         </label>
       </div>
-      <button type="submit" [disabled]="registerForm.invalid">Enviar</button>
+      <isdi-submit-btn
+        [label]="'Registrarse'"
+        [disabled]="registerForm.invalid"
+      />
     </form>
   `,
   styleUrl: './register.component.css',

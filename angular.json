@@ -79,7 +79,8 @@
             ],
             "styles": ["projects/uniteam/src/styles.css"],
             "scripts": [],
-            "karmaConfig": "projects/uniteam/karma.conf.js"
+            "karmaConfig": "projects/uniteam/karma.conf.js",
+            "codeCoverageExclude": ["projects/uniteam/src/app/app.routes.ts"]
           }
         },
         "lint": {

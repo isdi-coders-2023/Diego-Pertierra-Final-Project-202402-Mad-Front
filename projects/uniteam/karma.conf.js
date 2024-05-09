@@ -29,9 +29,6 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, '../../coverage/uniteam'),
       subdir: '.',
       reporters: [{ type: 'lcov' }, { type: 'text' }],
-      exclude: [
-        'src/app/app.routes.ts',
-      ],
     },
     reporters: ['mocha', 'kjhtml'],
     browsers: ['Chrome'],
