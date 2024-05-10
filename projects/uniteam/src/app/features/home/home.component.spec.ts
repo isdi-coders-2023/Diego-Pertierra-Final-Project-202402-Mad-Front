@@ -44,11 +44,4 @@ describe('HomeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should call setLogout on logout', () => {
-    component.logout();
-
-    expect(stateServiceMock.setLogout).toHaveBeenCalled();
-    expect(router.navigate).toHaveBeenCalledWith(['/login']);
-  });
 });

@@ -53,6 +53,7 @@ form {
     width: 100%;
     padding-block: 0.5rem;
     margin-block: 1rem;
+    font-family: 'Syne', monospace;
   }
 }
 
@@ -81,9 +82,10 @@ input {
   border: none;
   border-radius: 2rem;
   font-size: 0.8rem;
-  font-family: 'Montserrat', monospace;
+  font-family: 'Syne', monospace;
   padding-block: 0.8rem;
   padding-inline: 1rem;
+  cursor: pointer;
 }
 
 .file-control {

@@ -26,13 +26,14 @@ import { SubmitBtnComponent } from '../shared/submit-btn/submit-btn.component';
         </a>
         <h1>
           <img
-            src="assets/img/logo-with-text.svg"
+            src="assets/img/logos/logo-with-text.svg"
             alt="Logo de Uniteam"
             width="80"
           />
         </h1>
       </section>
       <h2>Registro de usuario</h2>
+      <p>¿Ya tienes usuario? <a [routerLink]="'/login'">Inicia sesión</a></p>
       <div class="form-control">
         <label>
           <span>Nombre de usuario</span>

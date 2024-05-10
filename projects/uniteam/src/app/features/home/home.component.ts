@@ -24,9 +24,7 @@ import { Router } from '@angular/router';
         alt=""
       />
     </h2>
-    }
-    <button (click)="logout()">Log out</button>
-    } @case ('error') {
+    } } @case ('error') {
     <p>Error de acceso</p>
     } }
   `,
@@ -44,10 +42,5 @@ export default class HomeComponent implements OnInit {
       this.currentUser = state.currentUser as User;
       console.log(this.currentUser);
     });
-  }
-
-  logout() {
-    this.stateService.setLogout();
-    this.router.navigate(['/login']);
   }
 }

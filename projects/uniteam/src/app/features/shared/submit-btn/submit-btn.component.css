@@ -1,5 +1,6 @@
 button {
   display: block;
+  font-family: 'Syne', monospace;
   font-size: 1.1rem;
   font-weight: 700;
   margin-block: 2rem 1.5rem;
@@ -15,6 +16,7 @@ button {
   );
   border: none;
   border-radius: 2rem;
+  cursor: pointer;
 }
 
 .disabled-btn {
@@ -24,4 +26,5 @@ button {
     rgb(114, 145, 125) 0%,
     rgb(66, 105, 93) 100%
   );
+  cursor: initial;
 }

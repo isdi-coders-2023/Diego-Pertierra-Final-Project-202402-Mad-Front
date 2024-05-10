@@ -23,7 +23,7 @@ import { SubmitBtnComponent } from '../shared/submit-btn/submit-btn.component';
         </a>
         <h1>
           <img
-            src="assets/img/logo-with-text.svg"
+            src="assets/img/logos/logo-with-text.svg"
             alt="Logo de Uniteam"
             width="80"
           />

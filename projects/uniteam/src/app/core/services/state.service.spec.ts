@@ -34,15 +34,12 @@ describe('StateService', () => {
   });
 
   it('should call setLogin with stored token from localStorage', () => {
-    // Setup
     const storedToken = 'mockStoredToken';
     localStorage.setItem('TFD', storedToken);
     const setLoginSpy = spyOn(stateService, 'setLogin').and.callThrough();
 
-    // Action
     stateService.setLogin(storedToken);
 
-    // Assertion
     expect(setLoginSpy).toHaveBeenCalledWith(storedToken);
   });
 
@@ -75,6 +72,18 @@ describe('StateService', () => {
     spyOn(localStorage, 'setItem');
     stateService.setLogin('token');
     expect(stateService.userState.loginState).toBe('error');
+  });
+
+  it('should return filtered and mapped routes', () => {
+    const result = stateService.setRoutes();
+
+    expect(result.length).toBe(4);
+    expect(result).toEqual([
+      { title: 'Landing', path: 'landing' },
+      { title: 'Home', path: 'home' },
+      { title: 'Login', path: 'login' },
+      { title: 'Registro', path: 'register' },
+    ]);
   });
 
   it('should set logout', () => {
