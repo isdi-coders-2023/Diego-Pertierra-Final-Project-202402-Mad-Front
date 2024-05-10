@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
     <main>
       <section>
         <img
-          src="../../../assets/img/white-bg-logo.svg"
+          src="../../../assets/img/logos/white-bg-logo.svg"
           alt="Uniteam logo"
           width="150"
         />
