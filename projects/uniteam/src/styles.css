@@ -4,6 +4,7 @@
   --ut-green: #47b16f;
   --ut-dark-green: #097d5a;
   --ut-light-green: #b0f0a0;
+  --a-blue: #0075ff;
   --gradient: linear-gradient(
     0deg,
     rgba(71, 177, 111, 1) 0%,
@@ -18,6 +19,15 @@
 body {
   margin: 0;
   font-family: 'Syne', monospace;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+  margin: 0;
 }
 
 ul {

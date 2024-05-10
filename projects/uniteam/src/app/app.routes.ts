@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'landing' },
+  { path: '', pathMatch: 'full', redirectTo: 'error' },
   {
     path: 'landing',
     title: 'Landing',
@@ -22,5 +22,10 @@ export const routes: Routes = [
     title: 'Registro',
     loadComponent: () => import('./features/register/register.component'),
   },
-  { path: '**', redirectTo: 'landing' },
+  {
+    path: 'error',
+    title: 'Error',
+    loadComponent: () => import('./features/error/error.component'),
+  },
+  { path: '**', redirectTo: 'error' },
 ];

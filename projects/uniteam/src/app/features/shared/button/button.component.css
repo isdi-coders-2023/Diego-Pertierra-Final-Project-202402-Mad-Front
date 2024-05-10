@@ -1,0 +1,20 @@
+button {
+  display: block;
+  font-family: 'Syne', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-block: 2rem 1.5rem;
+  margin-inline: auto;
+  padding-block: 1rem;
+  padding-inline: 3.5rem;
+  color: var(--ut-white);
+  background: rgb(71, 177, 111);
+  background: linear-gradient(
+    0deg,
+    rgba(71, 177, 111, 1) 0%,
+    rgba(9, 125, 90, 1) 100%
+  );
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+}

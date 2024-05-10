@@ -77,12 +77,13 @@ describe('StateService', () => {
   it('should return filtered and mapped routes', () => {
     const result = stateService.setRoutes();
 
-    expect(result.length).toBe(4);
+    expect(result.length).toBe(5);
     expect(result).toEqual([
       { title: 'Landing', path: 'landing' },
       { title: 'Home', path: 'home' },
       { title: 'Login', path: 'login' },
       { title: 'Registro', path: 'register' },
+      { title: 'Error', path: 'error' },
     ]);
   });
 
