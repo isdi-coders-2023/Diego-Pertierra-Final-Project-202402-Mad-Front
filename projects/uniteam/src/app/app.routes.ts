@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'error' },
+  { path: '', pathMatch: 'full', redirectTo: 'landing' },
   {
     path: 'landing',
     title: 'Landing',

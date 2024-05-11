@@ -9,7 +9,9 @@ import { Location } from '@angular/common';
   imports: [RouterModule, ButtonComponent],
   template: `
     <section>
-      <img src="assets/img/logos/logo.svg" alt="Logo de Uniteam" width="50" />
+      <a href="#" [routerLink]="'/home'">
+        <img src="assets/img/logos/logo.svg" alt="Logo de Uniteam" width="50" />
+      </a>
       <h2>OOPS</h2>
       <h3>ERROR 404</h3>
       <h3>No podemos encontrar lo que estabas buscando.</h3>
