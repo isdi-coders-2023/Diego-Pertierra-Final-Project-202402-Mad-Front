@@ -3,10 +3,10 @@ button {
   font-family: 'Syne', monospace;
   font-size: 1.1rem;
   font-weight: 700;
-  margin-block: 2rem 1.5rem;
+  margin-block: 1rem;
   margin-inline: auto;
   padding-block: 1rem;
-  padding-inline: 3.5rem;
+  padding-inline: 2.5rem;
   color: var(--ut-white);
   background: rgb(71, 177, 111);
   background: linear-gradient(

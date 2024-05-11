@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ButtonComponent } from '../shared/button/button.component';
 
 @Component({
   selector: 'isdi-landing',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, ButtonComponent],
   template: `
     <main>
       <section>
@@ -14,12 +15,18 @@ import { RouterModule } from '@angular/router';
           width="150"
         />
         <h1>SOMOS UNITEAM</h1>
-        <a tabindex="0" [routerLink]="'/login'" routerLinkActive="active">
-          Iniciar sesión
-        </a>
-        <a tabindex="0" [routerLink]="'/register'" routerLinkActive="active">
-          Registrarse
-        </a>
+        <isdi-button
+          [label]="'Iniciar sesión'"
+          tabindex="0"
+          [routerLink]="'/login'"
+          routerLinkActive="active"
+        />
+        <isdi-button
+          [label]="'Registrarse'"
+          tabindex="0"
+          [routerLink]="'/register'"
+          routerLinkActive="active"
+        />
         <h2>Aquí irá la barra de búsqueda</h2>
       </section>
     </main>

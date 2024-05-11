@@ -4,11 +4,12 @@ import { StateService, UserState } from '../../core/services/state.service';
 import { JsonPipe } from '@angular/common';
 import { User } from '../../core/models/user.model';
 import { Router } from '@angular/router';
+import { FooterComponent } from '../shared/footer/footer.component';
 
 @Component({
   selector: 'isdi-home',
   standalone: true,
-  imports: [HeaderComponent, JsonPipe],
+  imports: [HeaderComponent, JsonPipe, FooterComponent],
   template: `
     <isdi-header />
 
@@ -27,6 +28,7 @@ import { Router } from '@angular/router';
     } } @case ('error') {
     <p>Error de acceso</p>
     } }
+    <isdi-footer />
   `,
   styleUrl: './home.component.css',
 })

@@ -100,7 +100,14 @@ import { User } from '../../../core/models/user.model';
             <li><a href="#">Amigos</a></li>
             <li><a href="#">Mensajes</a></li>
             <li>
-              <a class="logout" href="#" (click)="logout()">Cerrar sesión</a>
+              <a
+                class="logout"
+                tabindex="0"
+                (click)="logout()"
+                (keyup)="logout()"
+              >
+                Cerrar sesión
+              </a>
             </li>
           </ul>
         </div>
