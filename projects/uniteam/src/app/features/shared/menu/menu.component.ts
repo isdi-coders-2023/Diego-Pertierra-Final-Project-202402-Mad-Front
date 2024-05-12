@@ -40,7 +40,8 @@ import { User } from '../../../core/models/user.model';
           (keyup)="toggleMobileMenu()"
           role="button"
         />
-        @for (item of items; track $index) { @if (item.path !== 'landing') {
+        @for (item of items; track $index) { @if (item.path !== 'landing' &&
+        item.path !== 'error') {
         <li>
           <a [routerLink]="'/' + item.path" routerLinkActive="active">{{
             item.title
@@ -142,7 +143,6 @@ export class MenuComponent implements OnInit {
     this.stateService.getUserState().subscribe((state) => {
       this.state = state;
       this.currentUser = state.currentUser as User;
-      console.log(this.currentUser);
     });
   }
 

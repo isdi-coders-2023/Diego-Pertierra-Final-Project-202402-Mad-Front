@@ -23,6 +23,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/register/register.component'),
   },
   {
+    path: 'events',
+    title: 'Eventos',
+    loadComponent: () => import('./features/events/events.component'),
+  },
+  {
     path: 'error',
     title: 'Error',
     loadComponent: () => import('./features/error/error.component'),
