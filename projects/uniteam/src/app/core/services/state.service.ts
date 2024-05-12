@@ -3,6 +3,8 @@ import { routes } from '../../app.routes';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RepoUsersService } from './repo.users.service';
+import { RepoEventsService } from './repo.events.service';
+import { Event } from '../models/event.model';
 
 type LoginState = 'idle' | 'logging' | 'logged' | 'error';
 
@@ -29,8 +31,13 @@ const initialState: UserState = {
   providedIn: 'root',
 })
 export class StateService {
-  private userState$ = new BehaviorSubject<UserState>(initialState);
   private repoUsers = inject(RepoUsersService);
+  private repoEvents = inject(RepoEventsService);
+  private userState$ = new BehaviorSubject<UserState>(initialState);
+  private eventList$: BehaviorSubject<Event[]> = new BehaviorSubject<Event[]>(
+    []
+  );
+
   jwtDecode = jwtDecode;
 
   constructor() {
@@ -54,7 +61,6 @@ export class StateService {
 
   setLogin(token: string) {
     try {
-      console.log(token);
       const currentPayload = this.jwtDecode(token) as Payload;
       localStorage.setItem('TFD', JSON.stringify({ token }));
       this.repoUsers.getById(currentPayload.id).subscribe((user) => {
@@ -65,22 +71,11 @@ export class StateService {
           currentPayload,
           currentUser: user,
         });
-        console.log(this.userState$);
       });
-      console.log(this.userState$.value);
     } catch (error) {
       console.error('Error decoding token:', error);
       this.setLoginState('error');
     }
-  }
-
-  setRoutes() {
-    return routes
-      .filter((route) => route.path !== '**' && route.path !== '')
-      .map((route) => ({
-        title: route.title as string,
-        path: route.path as string,
-      }));
   }
 
   setLogout() {
@@ -100,5 +95,25 @@ export class StateService {
     return (
       firstPart + 'c_fill,' + 'w_' + width + ',h_' + height + '/' + secondPart
     );
+  }
+
+  fetchEvents() {
+    this.repoEvents.getAll().subscribe((data) => {
+      this.eventList$.next(data);
+    });
+  }
+
+  getEvents() {
+    this.fetchEvents();
+    return this.eventList$.asObservable();
+  }
+
+  setRoutes() {
+    return routes
+      .filter((route) => route.path !== '**' && route.path !== '')
+      .map((route) => ({
+        title: route.title as string,
+        path: route.path as string,
+      }));
   }
 }

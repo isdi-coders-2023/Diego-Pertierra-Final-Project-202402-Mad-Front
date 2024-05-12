@@ -3,7 +3,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding-inline: 2rem;
-  margin-block-start: 1rem;
+  margin-block: 1rem 2rem;
 }
 
 .mobile-menu {

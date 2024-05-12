@@ -2,24 +2,30 @@ import { TestBed } from '@angular/core/testing';
 import { Payload, StateService, UserState } from './state.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RepoUsersService } from './repo.users.service';
+import { RepoEventsService } from './repo.events.service';
+import { Event } from '../models/event.model';
 import { Observable, of } from 'rxjs';
 
 describe('StateService', () => {
   let stateService: StateService;
   let repoUsersService: jasmine.SpyObj<RepoUsersService>;
+  let repoEventsService: jasmine.SpyObj<RepoEventsService>;
 
   beforeEach(() => {
-    const repoSpy = jasmine.createSpyObj('RepoUsersService', [
+    const repoUsersSpy = jasmine.createSpyObj('RepoUsersService', [
       'login',
       'getById',
       'create',
     ]);
 
+    const repoEventsSpy = jasmine.createSpyObj('RepoEventsService', ['getAll']);
+
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         StateService,
-        { provide: RepoUsersService, useValue: repoSpy },
+        { provide: RepoUsersService, useValue: repoUsersSpy },
+        { provide: RepoEventsService, useValue: repoEventsSpy },
       ],
     });
 
@@ -27,6 +33,9 @@ describe('StateService', () => {
     repoUsersService = TestBed.inject(
       RepoUsersService
     ) as jasmine.SpyObj<RepoUsersService>;
+    repoEventsService = TestBed.inject(
+      RepoEventsService
+    ) as jasmine.SpyObj<RepoEventsService>;
   });
 
   it('should be created', () => {
@@ -77,12 +86,13 @@ describe('StateService', () => {
   it('should return filtered and mapped routes', () => {
     const result = stateService.setRoutes();
 
-    expect(result.length).toBe(5);
+    expect(result.length).toBe(6);
     expect(result).toEqual([
       { title: 'Landing', path: 'landing' },
       { title: 'Home', path: 'home' },
       { title: 'Login', path: 'login' },
       { title: 'Registro', path: 'register' },
+      { title: 'Eventos', path: 'events' },
       { title: 'Error', path: 'error' },
     ]);
   });
@@ -113,5 +123,25 @@ describe('StateService', () => {
     expect(stateService.constructImageUrl(url, width, height)).toEqual(
       expectedUrl
     );
+  });
+
+  it('should fetch all events', () => {
+    const mockEvents: Event[] = [
+      { id: '1', title: 'evento1' },
+      { id: '2', title: 'evento2' },
+    ] as Event[];
+    repoEventsService.getAll.and.returnValue(of(mockEvents));
+    stateService.fetchEvents();
+  });
+
+  it('should get all events', () => {
+    const mockEvents: Event[] = [
+      { id: '1', title: 'evento1' },
+      { id: '2', title: 'evento2' },
+    ] as Event[];
+    repoEventsService.getAll.and.returnValue(of(mockEvents));
+    stateService.getEvents().subscribe((events: Event[]) => {
+      expect(events).toEqual(mockEvents);
+    });
   });
 });
