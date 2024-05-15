@@ -37,6 +37,7 @@ export class StateService {
   private repoMeets = inject(RepoMeetsService);
   private state$ = new BehaviorSubject<State>(initialState);
   jwtDecode = jwtDecode;
+  cardDeleteState!: boolean;
 
   getState(): Observable<State> {
     return this.state$.asObservable();
@@ -44,6 +45,15 @@ export class StateService {
 
   get state(): State {
     return this.state$.value;
+  }
+
+  setRoutes() {
+    return routes
+      .filter((route) => route.path !== '**' && route.path !== '')
+      .map((route) => ({
+        title: route.title as string,
+        path: route.path as string,
+      }));
   }
 
   setLoginState(loginState: LoginState): void {
@@ -116,12 +126,11 @@ export class StateService {
       });
   }
 
-  setRoutes() {
-    return routes
-      .filter((route) => route.path !== '**' && route.path !== '')
-      .map((route) => ({
-        title: route.title as string,
-        path: route.path as string,
-      }));
+  setDeleteCardState(shouldDelete: boolean) {
+    return (this.cardDeleteState = shouldDelete);
+  }
+
+  getDeleteCardState() {
+    return this.cardDeleteState;
   }
 }

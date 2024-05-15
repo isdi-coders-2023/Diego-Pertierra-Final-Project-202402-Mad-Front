@@ -28,8 +28,6 @@ export class RepoUsersService {
   }
 
   saveMeet(userId: string, meetId: string, token: string) {
-    console.log(`${this.url}/${userId}/saved-meets/${meetId}`);
-    console.log(userId, meetId);
     return this.httpClient.post(
       `${this.url}/${userId}/saved-meets/${meetId}`,
       {},

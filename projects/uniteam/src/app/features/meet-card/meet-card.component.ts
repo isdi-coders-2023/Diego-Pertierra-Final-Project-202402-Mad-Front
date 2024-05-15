@@ -23,34 +23,50 @@ import { User } from '../../core/models/user.model';
             meetInfo.sport.charAt(0).toUpperCase() + meetInfo.sport.slice(1)
           }}</span>
         </li>
-        <section>
-          <li>{{ meetInfo.date }}</li>
-          <li>
-            <h2>{{ meetInfo.title }}</h2>
-          </li>
-          <li>
-            <p>{{ meetInfo.location }}</p>
-          </li>
-          <li class="card-attendees">
-            <span>{{ meetInfo.attendees.length }} apuntados</span>
-            <div>
-              <img
-                src="assets/img/icons/send.svg"
-                alt="Icono de enviar"
-                width="30"
-              />
-              <img
-                src="assets/img/icons/save.svg"
-                alt="Icono de guardar"
-                width="30"
-                tabindex="0"
-                role="button"
-                (click)="this.state.saveMeet(currentUser.id, meetInfo.id)"
-                (keyup)="this.state.saveMeet(currentUser.id, meetInfo.id)"
-              />
-            </div>
-          </li>
-        </section>
+        @if (this.state.getDeleteCardState()) {
+        <img
+          src="assets/img/icons/close-w.svg"
+          alt="Icono de eliminar tarjeta"
+          width="25"
+          class="card-close-btn"
+          tabindex="0"
+          role="button"
+          (click)="this.state.deleteMeet(currentUser.id, meetInfo.id)"
+          (keyup)="this.state.deleteMeet(currentUser.id, meetInfo.id)"
+        />
+        }
+        <li>
+          <ul>
+            <li>{{ meetInfo.date }}</li>
+            <li>
+              <h2>{{ meetInfo.title }}</h2>
+            </li>
+            <li>
+              <p>{{ meetInfo.location }}</p>
+            </li>
+            <li class="card-attendees">
+              @if (meetInfo.attendees) {
+              <span>{{ meetInfo.attendees.length }} apuntados</span>
+              }
+              <div>
+                <img
+                  src="assets/img/icons/send.svg"
+                  alt="Icono de enviar"
+                  width="30"
+                />
+                <img
+                  src="assets/img/icons/save.svg"
+                  alt="Icono de guardar"
+                  width="30"
+                  tabindex="0"
+                  role="button"
+                  (click)="this.state.saveMeet(currentUser.id, meetInfo.id)"
+                  (keyup)="this.state.saveMeet(currentUser.id, meetInfo.id)"
+                />
+              </div>
+            </li>
+          </ul>
+        </li>
       </ul>
     </article>
     }
@@ -65,9 +81,6 @@ export class MeetCardComponent implements OnInit {
   ngOnInit(): void {
     this.state.getState().subscribe((data) => {
       this.currentUser = data.currentUser as User;
-      this.state.getState().subscribe((data) => {
-        console.log(data.loginState);
-      });
     });
   }
 }
