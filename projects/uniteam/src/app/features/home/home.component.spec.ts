@@ -17,6 +17,7 @@ describe('HomeComponent', () => {
       'setLogout',
       'setRoutes',
       'constructImageUrl',
+      'setDeleteCardState',
     ]);
 
     stateServiceMock.getState.and.returnValue(

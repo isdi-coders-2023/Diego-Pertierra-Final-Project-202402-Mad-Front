@@ -152,7 +152,6 @@ export class MenuComponent implements OnInit {
         this.currentUser = state.currentUser as User;
       });
     } catch (error) {
-      console.error('Error while initializing component:', error);
       this.currentUser = {} as User;
     }
   }
