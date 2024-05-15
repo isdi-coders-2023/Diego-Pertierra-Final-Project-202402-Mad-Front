@@ -25,7 +25,7 @@ describe('loggedInterceptor', () => {
           {
             provide: StateService,
             useValue: {
-              userState: {
+              state: {
                 loginState: 'logged',
                 token: 'token',
               },
@@ -52,7 +52,7 @@ describe('loggedInterceptor', () => {
           {
             provide: StateService,
             useValue: {
-              userState: {
+              state: {
                 loginState: 'idle',
                 token: 'token',
               },

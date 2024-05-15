@@ -1,31 +1,34 @@
 import { TestBed } from '@angular/core/testing';
-import { Payload, StateService, UserState } from './state.service';
+import { Payload, StateService, State } from './state.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RepoUsersService } from './repo.users.service';
-import { RepoEventsService } from './repo.events.service';
-import { Event } from '../models/event.model';
+import { RepoMeetsService } from './repo-meets.service';
+import { Meet } from '../models/meet.model';
 import { Observable, of } from 'rxjs';
 
 describe('StateService', () => {
   let stateService: StateService;
   let repoUsersService: jasmine.SpyObj<RepoUsersService>;
-  let repoEventsService: jasmine.SpyObj<RepoEventsService>;
+  let repoMeetsService: jasmine.SpyObj<RepoMeetsService>;
 
   beforeEach(() => {
     const repoUsersSpy = jasmine.createSpyObj('RepoUsersService', [
       'login',
       'getById',
       'create',
+      'update',
+      'saveMeet',
+      'deleteMeet',
     ]);
 
-    const repoEventsSpy = jasmine.createSpyObj('RepoEventsService', ['getAll']);
+    const repoMeetsSpy = jasmine.createSpyObj('RepoMeetsService', ['getAll']);
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         StateService,
         { provide: RepoUsersService, useValue: repoUsersSpy },
-        { provide: RepoEventsService, useValue: repoEventsSpy },
+        { provide: RepoMeetsService, useValue: repoMeetsSpy },
       ],
     });
 
@@ -33,9 +36,9 @@ describe('StateService', () => {
     repoUsersService = TestBed.inject(
       RepoUsersService
     ) as jasmine.SpyObj<RepoUsersService>;
-    repoEventsService = TestBed.inject(
-      RepoEventsService
-    ) as jasmine.SpyObj<RepoEventsService>;
+    repoMeetsService = TestBed.inject(
+      RepoMeetsService
+    ) as jasmine.SpyObj<RepoMeetsService>;
   });
 
   it('should be created', () => {
@@ -54,7 +57,7 @@ describe('StateService', () => {
 
   it('should set login state', () => {
     stateService.setLoginState('logging');
-    expect(stateService.userState.loginState).toEqual('logging');
+    expect(stateService.state.loginState).toEqual('logging');
   });
 
   it('should set login', () => {
@@ -65,7 +68,7 @@ describe('StateService', () => {
     spyOn(localStorage, 'setItem');
     repoUsersService.getById.and.returnValue(of(mockUser));
     stateService.setLogin('token');
-    stateService.getUserState().subscribe((state: UserState) => {
+    stateService.getState().subscribe((state: State) => {
       expect(state.loginState).toEqual('logged');
       expect(state.token).toEqual('token');
       expect(state.currentPayload).toEqual(payload as Payload);
@@ -80,7 +83,7 @@ describe('StateService', () => {
   it('should set loginState to error if token is invalid', () => {
     spyOn(localStorage, 'setItem');
     stateService.setLogin('token');
-    expect(stateService.userState.loginState).toBe('error');
+    expect(stateService.state.loginState).toBe('error');
   });
 
   it('should return filtered and mapped routes', () => {
@@ -92,7 +95,7 @@ describe('StateService', () => {
       { title: 'Home', path: 'home' },
       { title: 'Login', path: 'login' },
       { title: 'Registro', path: 'register' },
-      { title: 'Eventos', path: 'events' },
+      { title: 'Quedadas', path: 'meets' },
       { title: 'Error', path: 'error' },
     ]);
   });
@@ -103,15 +106,15 @@ describe('StateService', () => {
     stateService.setLogout();
 
     expect(localStorage.removeItem).toHaveBeenCalledWith('TFD');
-    expect(stateService.userState.loginState).toEqual('idle');
-    expect(stateService.userState.token).toBeNull();
-    expect(stateService.userState.currentPayload).toBeNull();
-    expect(stateService.userState.currentUser).toBeNull();
+    expect(stateService.state.loginState).toEqual('idle');
+    expect(stateService.state.token).toBeNull();
+    expect(stateService.state.currentPayload).toBeNull();
+    expect(stateService.state.currentUser).toBeNull();
   });
 
   it('should return user state observable', () => {
-    const userState$ = stateService.getUserState();
-    expect(userState$).toEqual(jasmine.any(Observable));
+    const state$ = stateService.getState();
+    expect(state$).toEqual(jasmine.any(Observable));
   });
 
   it('should construct image URL correctly', () => {
@@ -125,23 +128,72 @@ describe('StateService', () => {
     );
   });
 
-  it('should fetch all events', () => {
-    const mockEvents: Event[] = [
-      { id: '1', title: 'evento1' },
-      { id: '2', title: 'evento2' },
-    ] as Event[];
-    repoEventsService.getAll.and.returnValue(of(mockEvents));
-    stateService.fetchEvents();
+  it('should load all meets', () => {
+    const mockMeets: Meet[] = [
+      { id: '1', title: 'Meet1' },
+      { id: '2', title: 'Meet2' },
+    ] as Meet[];
+
+    repoMeetsService.getAll.and.returnValue(of(mockMeets));
+    const nextSpy = spyOn(stateService['state$'], 'next').and.callThrough();
+
+    stateService.loadMeets();
+
+    expect(nextSpy).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        loginState: 'idle',
+        token: null,
+        currentPayload: null,
+        currentUser: null,
+        meets: mockMeets,
+      })
+    );
   });
 
-  it('should get all events', () => {
-    const mockEvents: Event[] = [
-      { id: '1', title: 'evento1' },
-      { id: '2', title: 'evento2' },
-    ] as Event[];
-    repoEventsService.getAll.and.returnValue(of(mockEvents));
-    stateService.getEvents().subscribe((events: Event[]) => {
-      expect(events).toEqual(mockEvents);
+  it('should save meet for user', () => {
+    const userId = '1';
+    const meetId = '2';
+    const token = 'mockToken';
+    const mockUser = { id: userId, name: 'John Doe' };
+
+    spyOnProperty(stateService, 'state', 'get').and.returnValue({
+      ...stateService.state,
+      currentUser: mockUser,
+      token: token,
     });
+    repoUsersService.saveMeet.and.returnValue(of(mockUser));
+
+    stateService.saveMeet(userId, meetId);
+
+    expect(repoUsersService.saveMeet).toHaveBeenCalledWith(
+      userId,
+      meetId,
+      token
+    );
+
+    expect(stateService.state.currentUser).toEqual(mockUser);
+  });
+
+  it('should delete meet for user', () => {
+    const userId = '1';
+    const meetId = '2';
+    const token = 'mockToken';
+
+    spyOnProperty(stateService, 'state', 'get').and.returnValue({
+      ...stateService.state,
+      token: token,
+    });
+
+    repoUsersService.deleteMeet.and.returnValue(of({}));
+
+    stateService.deleteMeet(userId, meetId);
+
+    expect(repoUsersService.deleteMeet).toHaveBeenCalledWith(
+      userId,
+      meetId,
+      token
+    );
+
+    expect(stateService['state$'].value.currentUser).toEqual({});
   });
 });

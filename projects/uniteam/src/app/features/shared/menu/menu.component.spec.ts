@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MenuComponent } from './menu.component';
-import { StateService, UserState } from '../../../core/services/state.service';
+import { StateService, State } from '../../../core/services/state.service';
 import { Router, Routes, provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -14,20 +13,20 @@ describe('MenuComponent', () => {
 
   beforeEach(async () => {
     stateServiceMock = jasmine.createSpyObj('StateService', [
-      'getUserState',
+      'getState',
       'setLogout',
       'setRoutes',
       'constructImageUrl',
     ]);
 
-    stateServiceMock.getUserState.and.returnValue(
+    stateServiceMock.getState.and.returnValue(
       of({
         loginState: 'logged',
         currentUser: {
           name: 'Test User',
           avatar: 'path_to_avatar.jpg',
         },
-      } as UserState)
+      } as State)
     );
 
     stateServiceMock.constructImageUrl.and.returnValue('valid_avatar_url');
