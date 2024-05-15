@@ -4,7 +4,7 @@ import { StateService } from '../core/services/state.service';
 
 export const loggedInterceptor: HttpInterceptorFn = (req, next) => {
   const stateService = inject(StateService);
-  const { loginState, token } = stateService.userState;
+  const { loginState, token } = stateService.state;
 
   if (loginState !== 'logged') {
     return next(req);

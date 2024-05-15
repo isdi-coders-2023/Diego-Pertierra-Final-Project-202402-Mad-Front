@@ -62,4 +62,45 @@ describe('RepoUsersService', () => {
     expect(req.request.method).toBe('POST');
     req.flush(testData);
   });
+
+  it('should update user data', () => {
+    const userId = '1';
+    const testData: Partial<User> = { username: 'UpdatedName' };
+    service.update(testData, userId).subscribe((data) => {
+      expect(data).toEqual(testData);
+    });
+    const req = httpMock.expectOne(`http://localhost:3400/users/${userId}`);
+    expect(req.request.method).toBe('PATCH');
+    req.flush(testData);
+  });
+
+  it('should save meet for user', () => {
+    const userId = '1';
+    const meetId = '2';
+    const token = 'mockToken';
+    service.saveMeet(userId, meetId, token).subscribe((data) => {
+      expect(data).toBeTruthy();
+    });
+    const req = httpMock.expectOne(
+      `http://localhost:3400/users/${userId}/saved-meets/${meetId}`
+    );
+    expect(req.request.method).toBe('POST');
+    expect(req.request.headers.get('Authorization')).toBe('Bearer ' + token);
+    req.flush({});
+  });
+
+  it('should delete meet for user', () => {
+    const userId = '1';
+    const meetId = '2';
+    const token = 'mockToken';
+    service.deleteMeet(userId, meetId, token).subscribe((data) => {
+      expect(data).toBeTruthy();
+    });
+    const req = httpMock.expectOne(
+      `http://localhost:3400/users/${userId}/saved-meets/${meetId}`
+    );
+    expect(req.request.method).toBe('DELETE');
+    expect(req.request.headers.get('Authorization')).toBe('Bearer ' + token);
+    req.flush({});
+  });
 });

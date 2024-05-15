@@ -23,9 +23,9 @@ export const routes: Routes = [
     loadComponent: () => import('./features/register/register.component'),
   },
   {
-    path: 'events',
-    title: 'Eventos',
-    loadComponent: () => import('./features/events/events.component'),
+    path: 'meets',
+    title: 'Quedadas',
+    loadComponent: () => import('./features/meets/meets.component'),
   },
   {
     path: 'error',

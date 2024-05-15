@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HeaderComponent } from './header.component';
 import { provideRouter } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { StateService, UserState } from '../../../core/services/state.service';
+import { StateService, State } from '../../../core/services/state.service';
 import { of } from 'rxjs';
 
 describe('HeaderComponent', () => {
@@ -13,20 +13,20 @@ describe('HeaderComponent', () => {
   beforeEach(async () => {
     stateServiceMock = jasmine.createSpyObj('StateService', [
       'setRoutes',
-      'getUserState',
+      'getState',
       'constructImageUrl',
     ]);
     stateServiceMock.setRoutes.and.returnValue([
       { title: 'Home', path: 'home' }, // Mocked menu options
     ]);
-    stateServiceMock.getUserState.and.returnValue(
+    stateServiceMock.getState.and.returnValue(
       of({
         loginState: 'logged',
         currentUser: {
           name: 'Test User',
           avatar: 'path_to_avatar.jpg',
         },
-      } as UserState)
+      } as State)
     );
 
     await TestBed.configureTestingModule({

@@ -1,3 +1,5 @@
+import { Meet } from './meet.model';
+
 export type User = {
   id: string;
   username: string;
@@ -9,8 +11,10 @@ export type User = {
   birthDate: Date;
   gender: 'male' | 'female' | 'unspecified';
   bio: string;
-  events: Array<Partial<Event>>;
-  createdEvents: Array<Partial<Event>>;
+  meets: Meet[];
+  joinedMeets: Meet[];
+  createdMeets: Meet[];
+  savedMeets: Meet[];
   friends?: User[];
   comments?: Comment[];
 };

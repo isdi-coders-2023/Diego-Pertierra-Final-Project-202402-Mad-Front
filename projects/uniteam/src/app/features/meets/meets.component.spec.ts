@@ -1,43 +1,43 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import EventsComponent from './events.component';
+import MeetsComponent from './meets.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
-import { StateService, UserState } from '../../core/services/state.service';
+import { StateService, State } from '../../core/services/state.service';
 import { of } from 'rxjs';
 
-describe('EventsComponent', () => {
-  let component: EventsComponent;
-  let fixture: ComponentFixture<EventsComponent>;
+describe('MeetsComponent', () => {
+  let component: MeetsComponent;
+  let fixture: ComponentFixture<MeetsComponent>;
   let stateServiceMock: jasmine.SpyObj<StateService>;
 
   beforeEach(async () => {
     stateServiceMock = jasmine.createSpyObj('StateService', [
-      'getUserState',
+      'getState',
       'setLogout',
       'setRoutes',
       'constructImageUrl',
-      'getEvents',
+      'loadMeets',
     ]);
 
-    stateServiceMock.getUserState.and.returnValue(
+    stateServiceMock.getState.and.returnValue(
       of({
         loginState: 'logged',
         currentUser: { name: 'Test User' },
-      } as UserState)
+      } as State)
     );
 
-    stateServiceMock.getEvents.and.returnValue(of([]));
+    stateServiceMock.loadMeets();
 
     await TestBed.configureTestingModule({
-      imports: [EventsComponent, HttpClientTestingModule],
+      imports: [MeetsComponent, HttpClientTestingModule],
       providers: [
         provideRouter([]),
         { provide: StateService, useValue: stateServiceMock },
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(EventsComponent);
+    fixture = TestBed.createComponent(MeetsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -47,10 +47,10 @@ describe('EventsComponent', () => {
   });
 
   it('should call state service with correct parameter in ngOnInit', () => {
-    (stateServiceMock.getEvents as jasmine.Spy).and.returnValue(of([]));
+    (stateServiceMock.loadMeets as jasmine.Spy).and.returnValue(of([]));
 
     component.ngOnInit();
 
-    expect(stateServiceMock.getEvents).toHaveBeenCalled();
+    expect(stateServiceMock.loadMeets).toHaveBeenCalled();
   });
 });

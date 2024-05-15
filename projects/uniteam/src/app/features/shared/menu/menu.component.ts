@@ -1,7 +1,7 @@
 import { Component, HostListener, Input, OnInit, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { MenuOption } from '../../../core/models/menu-option';
-import { StateService, UserState } from '../../../core/services/state.service';
+import { StateService, State } from '../../../core/services/state.service';
 import { User } from '../../../core/models/user.model';
 
 @Component({
@@ -41,7 +41,8 @@ import { User } from '../../../core/models/user.model';
           role="button"
         />
         @for (item of items; track $index) { @if (item.path !== 'landing' &&
-        item.path !== 'error') {
+        item.path !== 'error' && item.path !== 'login' && item.path !==
+        'register') {
         <li>
           <a [routerLink]="'/' + item.path" routerLinkActive="active">{{
             item.title
@@ -57,6 +58,7 @@ import { User } from '../../../core/models/user.model';
           </ul>
         </li>
         <li class="user-flex">
+          @if (currentUser && currentUser.avatar) {
           <img
             src="{{
               this.stateService.constructImageUrl(
@@ -67,19 +69,22 @@ import { User } from '../../../core/models/user.model';
             }}"
             alt="Imagen del usuario"
           />
+          }
           <a class="logout" href="#" (click)="logout()">Cerrar sesión</a>
         </li>
       </ul>
       } @else {
       <ul class="desktop-menu">
         <div class="desktop-links">
-          @for (item of items; track $index) { @if (item.path !== 'landing') {
+          @for (item of items; track $index) { @if (item.path !== 'landing' &&
+          item.path !== 'error' && item.path !== 'login' && item.path !==
+          'register') {
           <li>
             <a [routerLink]="'/' + item.path" routerLinkActive="active">{{
               item.title
             }}</a>
           </li>
-          } }
+          } } @if (currentUser && currentUser.avatar) {
           <img
             class="profile-img"
             src="{{
@@ -96,6 +101,7 @@ import { User } from '../../../core/models/user.model';
             (keyup)="toggleProfileMenu()"
             role="button"
           />
+          }
           <ul [class]="profileMenuClass">
             <li><a href="#">Perfil</a></li>
             <li><a href="#">Amigos</a></li>
@@ -121,7 +127,7 @@ import { User } from '../../../core/models/user.model';
 export class MenuComponent implements OnInit {
   router = inject(Router);
   stateService = inject(StateService);
-  state!: UserState;
+  state!: State;
   currentUser!: User;
   @Input({
     required: true,
@@ -138,12 +144,17 @@ export class MenuComponent implements OnInit {
     this.checkViewport();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.checkViewport();
-    this.stateService.getUserState().subscribe((state) => {
-      this.state = state;
-      this.currentUser = state.currentUser as User;
-    });
+    try {
+      this.stateService.getState().subscribe((state) => {
+        this.state = state;
+        this.currentUser = state.currentUser as User;
+      });
+    } catch (error) {
+      console.error('Error while initializing component:', error);
+      this.currentUser = {} as User;
+    }
   }
 
   checkViewport() {

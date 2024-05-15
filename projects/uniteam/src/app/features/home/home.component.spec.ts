@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import HomeComponent from './home.component';
 import { Router, Routes, provideRouter } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { StateService, UserState } from '../../core/services/state.service';
+import { StateService, State } from '../../core/services/state.service';
 import { of } from 'rxjs';
 
 describe('HomeComponent', () => {
@@ -13,17 +13,17 @@ describe('HomeComponent', () => {
 
   beforeEach(async () => {
     stateServiceMock = jasmine.createSpyObj('StateService', [
-      'getUserState',
+      'getState',
       'setLogout',
       'setRoutes',
       'constructImageUrl',
     ]);
 
-    stateServiceMock.getUserState.and.returnValue(
+    stateServiceMock.getState.and.returnValue(
       of({
         loginState: 'logged',
         currentUser: { name: 'Test User' },
-      } as UserState)
+      } as State)
     );
 
     await TestBed.configureTestingModule({

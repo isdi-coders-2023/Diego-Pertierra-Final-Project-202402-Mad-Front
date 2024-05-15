@@ -3,8 +3,8 @@ import { routes } from '../../app.routes';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { RepoUsersService } from './repo.users.service';
-import { RepoEventsService } from './repo.events.service';
-import { Event } from '../models/event.model';
+import { RepoMeetsService } from './repo-meets.service';
+import { Meet } from '../models/meet.model';
 
 type LoginState = 'idle' | 'logging' | 'logged' | 'error';
 
@@ -13,18 +13,20 @@ export type Payload = {
   role: string;
 } & JwtPayload;
 
-export type UserState = {
+export type State = {
   loginState: LoginState;
   token: string | null;
   currentPayload: Payload | null;
   currentUser: unknown | null;
+  meets: Meet[];
 };
 
-const initialState: UserState = {
+const initialState: State = {
   loginState: 'idle',
   token: null,
   currentPayload: null,
   currentUser: null,
+  meets: [],
 };
 
 @Injectable({
@@ -32,31 +34,20 @@ const initialState: UserState = {
 })
 export class StateService {
   private repoUsers = inject(RepoUsersService);
-  private repoEvents = inject(RepoEventsService);
-  private userState$ = new BehaviorSubject<UserState>(initialState);
-  private eventList$: BehaviorSubject<Event[]> = new BehaviorSubject<Event[]>(
-    []
-  );
-
+  private repoMeets = inject(RepoMeetsService);
+  private state$ = new BehaviorSubject<State>(initialState);
   jwtDecode = jwtDecode;
 
-  constructor() {
-    const storedToken = localStorage.getItem('TFD');
-    if (storedToken) {
-      this.setLogin(storedToken);
-    }
+  getState(): Observable<State> {
+    return this.state$.asObservable();
   }
 
-  getUserState(): Observable<UserState> {
-    return this.userState$.asObservable();
-  }
-
-  get userState(): UserState {
-    return this.userState$.value;
+  get state(): State {
+    return this.state$.value;
   }
 
   setLoginState(loginState: LoginState): void {
-    this.userState$.next({ ...this.userState$.value, loginState });
+    this.state$.next({ ...this.state$.value, loginState });
   }
 
   setLogin(token: string) {
@@ -64,8 +55,8 @@ export class StateService {
       const currentPayload = this.jwtDecode(token) as Payload;
       localStorage.setItem('TFD', JSON.stringify({ token }));
       this.repoUsers.getById(currentPayload.id).subscribe((user) => {
-        this.userState$.next({
-          ...this.userState$.value,
+        this.state$.next({
+          ...this.state$.value,
           loginState: 'logged',
           token,
           currentPayload,
@@ -80,8 +71,8 @@ export class StateService {
 
   setLogout() {
     localStorage.removeItem('TFD');
-    this.userState$.next({
-      ...this.userState$.value,
+    this.state$.next({
+      ...this.state$.value,
       loginState: 'idle',
       token: null,
       currentPayload: null,
@@ -97,15 +88,32 @@ export class StateService {
     );
   }
 
-  fetchEvents() {
-    this.repoEvents.getAll().subscribe((data) => {
-      this.eventList$.next(data);
+  loadMeets() {
+    this.repoMeets.getAll().subscribe((meets) => {
+      this.state$.next({ ...this.state$.value, meets });
     });
   }
 
-  getEvents() {
-    this.fetchEvents();
-    return this.eventList$.asObservable();
+  saveMeet(userId: string, meetId: string) {
+    this.repoUsers
+      .saveMeet(userId, meetId, this.state.token!)
+      .subscribe((data) => {
+        this.state$.next({
+          ...this.state$.value,
+          currentUser: data,
+        });
+      });
+  }
+
+  deleteMeet(userId: string, meetId: string) {
+    this.repoUsers
+      .deleteMeet(userId, meetId, this.state.token!)
+      .subscribe((data) => {
+        this.state$.next({
+          ...this.state$.value,
+          currentUser: data,
+        });
+      });
   }
 
   setRoutes() {

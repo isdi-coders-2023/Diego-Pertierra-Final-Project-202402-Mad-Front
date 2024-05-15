@@ -1,4 +1,4 @@
-.event-card {
+.meet-card {
   color: var(--ut-white);
   width: 250px;
   height: 300px;
@@ -6,7 +6,7 @@
   border-radius: 1rem;
 }
 
-.event-card-content {
+.meet-card-content {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -16,7 +16,7 @@
   padding-inline: 1rem;
 }
 
-.event-filters span {
+.meet-filters span {
   background-color: var(--ut-dark-green);
   padding-block: 0.3rem;
   padding-inline: 1rem;

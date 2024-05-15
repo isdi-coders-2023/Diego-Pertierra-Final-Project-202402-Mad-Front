@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EventCardComponent } from './event-card.component';
+import { MeetCardComponent } from './meet-card.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('EventCardComponent', () => {
-  let component: EventCardComponent;
-  let fixture: ComponentFixture<EventCardComponent>;
+describe('MeetCardComponent', () => {
+  let component: MeetCardComponent;
+  let fixture: ComponentFixture<MeetCardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EventCardComponent, HttpClientTestingModule],
+      imports: [MeetCardComponent, HttpClientTestingModule],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(EventCardComponent);
+    fixture = TestBed.createComponent(MeetCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
