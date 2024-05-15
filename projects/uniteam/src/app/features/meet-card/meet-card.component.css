@@ -1,9 +1,11 @@
 .meet-card {
+  position: relative;
   color: var(--ut-white);
   width: 250px;
   height: 300px;
   font-family: 'Montserrat', monospace;
   border-radius: 1rem;
+  cursor: pointer;
 }
 
 .meet-card-content {
@@ -34,4 +36,11 @@
   img {
     padding-inline: 0.2rem;
   }
+}
+
+.card-close-btn {
+  position: absolute;
+  color: white;
+  top: 0.8rem;
+  right: 1rem;
 }

@@ -18,6 +18,7 @@ describe('MeetsComponent', () => {
       'setRoutes',
       'constructImageUrl',
       'loadMeets',
+      'setDeleteCardState',
     ]);
 
     stateServiceMock.getState.and.returnValue(

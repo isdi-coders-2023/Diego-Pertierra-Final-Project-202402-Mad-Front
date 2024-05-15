@@ -41,5 +41,6 @@ export default class HomeComponent implements OnInit {
       this.state = state;
       this.currentUser = state.currentUser as User;
     });
+    this.stateService.setDeleteCardState(true);
   }
 }

@@ -196,4 +196,16 @@ describe('StateService', () => {
 
     expect(stateService['state$'].value.currentUser).toEqual({});
   });
+
+  it('should set delete card state', () => {
+    const shouldDelete = true;
+    stateService.setDeleteCardState(shouldDelete);
+    expect(stateService.getDeleteCardState()).toBe(shouldDelete);
+  });
+
+  it('should get delete card state', () => {
+    const initialState = false;
+    stateService.cardDeleteState = initialState;
+    expect(stateService.getDeleteCardState()).toBe(initialState);
+  });
 });

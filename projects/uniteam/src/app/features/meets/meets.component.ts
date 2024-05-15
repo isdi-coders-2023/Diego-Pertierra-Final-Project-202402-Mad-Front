@@ -25,5 +25,6 @@ export default class MeetsComponent implements OnInit {
 
   ngOnInit() {
     this.state.loadMeets();
+    this.state.setDeleteCardState(false);
   }
 }
