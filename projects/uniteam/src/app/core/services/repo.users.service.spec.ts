@@ -77,30 +77,52 @@ describe('RepoUsersService', () => {
   it('should save meet for user', () => {
     const userId = '1';
     const meetId = '2';
-    const token = 'mockToken';
-    service.saveMeet(userId, meetId, token).subscribe((data) => {
+    service.saveMeet(userId, meetId).subscribe((data) => {
       expect(data).toBeTruthy();
     });
     const req = httpMock.expectOne(
       `http://localhost:3400/users/${userId}/saved-meets/${meetId}`
     );
     expect(req.request.method).toBe('POST');
-    expect(req.request.headers.get('Authorization')).toBe('Bearer ' + token);
     req.flush({});
   });
 
   it('should delete meet for user', () => {
     const userId = '1';
     const meetId = '2';
-    const token = 'mockToken';
-    service.deleteMeet(userId, meetId, token).subscribe((data) => {
+    service.deleteMeet(userId, meetId).subscribe((data) => {
       expect(data).toBeTruthy();
     });
     const req = httpMock.expectOne(
       `http://localhost:3400/users/${userId}/saved-meets/${meetId}`
     );
     expect(req.request.method).toBe('DELETE');
-    expect(req.request.headers.get('Authorization')).toBe('Bearer ' + token);
+    req.flush({});
+  });
+
+  it('should join meet for user', () => {
+    const userId = '1';
+    const meetId = '2';
+    service.joinMeet(userId, meetId).subscribe((data) => {
+      expect(data).toBeTruthy();
+    });
+    const req = httpMock.expectOne(
+      `http://localhost:3400/users/${userId}/joined-meets/${meetId}`
+    );
+    expect(req.request.method).toBe('POST');
+    req.flush({});
+  });
+
+  it('should leave meet for user', () => {
+    const userId = '1';
+    const meetId = '2';
+    service.leaveMeet(userId, meetId).subscribe((data) => {
+      expect(data).toBeTruthy();
+    });
+    const req = httpMock.expectOne(
+      `http://localhost:3400/users/${userId}/joined-meets/${meetId}`
+    );
+    expect(req.request.method).toBe('DELETE');
     req.flush({});
   });
 });

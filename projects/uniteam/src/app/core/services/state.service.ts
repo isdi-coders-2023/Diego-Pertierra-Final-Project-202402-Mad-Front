@@ -1,10 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { routes } from '../../app.routes';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, filter, switchMap } from 'rxjs';
 import { RepoUsersService } from './repo.users.service';
 import { RepoMeetsService } from './repo-meets.service';
 import { Meet } from '../models/meet.model';
+import { User } from '../models/user.model';
 
 type LoginState = 'idle' | 'logging' | 'logged' | 'error';
 
@@ -36,7 +37,12 @@ export class StateService {
   private repoUsers = inject(RepoUsersService);
   private repoMeets = inject(RepoMeetsService);
   private state$ = new BehaviorSubject<State>(initialState);
+  private loginComplete$ = new BehaviorSubject<boolean>(false);
+  private meetState = new BehaviorSubject<Meet[]>([]);
+  meetState$ = this.meetState.asObservable();
+
   jwtDecode = jwtDecode;
+  private meets: Meet[] = [];
   cardDeleteState!: boolean;
 
   getState(): Observable<State> {
@@ -72,11 +78,19 @@ export class StateService {
           currentPayload,
           currentUser: user,
         });
+        if (this.state.loginState === 'logged') {
+          console.log('User logged in');
+          this.loginComplete$.next(true);
+        }
       });
     } catch (error) {
       console.error('Error decoding token:', error);
       this.setLoginState('error');
     }
+  }
+
+  get loginCompletion$() {
+    return this.loginComplete$.asObservable();
   }
 
   setLogout() {
@@ -104,26 +118,58 @@ export class StateService {
     });
   }
 
-  saveMeet(userId: string, meetId: string) {
-    this.repoUsers
-      .saveMeet(userId, meetId, this.state.token!)
-      .subscribe((data) => {
-        this.state$.next({
-          ...this.state$.value,
-          currentUser: data,
-        });
-      });
+  loadMeetById(id: string) {
+    return this.loginCompletion$.pipe(
+      filter((loggedIn) => loggedIn === true),
+      switchMap(() => this.repoMeets.getById(id))
+    );
   }
 
-  deleteMeet(userId: string, meetId: string) {
-    this.repoUsers
-      .deleteMeet(userId, meetId, this.state.token!)
-      .subscribe((data) => {
-        this.state$.next({
-          ...this.state$.value,
-          currentUser: data,
-        });
+  saveMeet(userId: string, meetId: string, event: Event) {
+    event.stopPropagation();
+    this.repoUsers.saveMeet(userId, meetId).subscribe((data) => {
+      this.state$.next({
+        ...this.state$.value,
+        currentUser: data,
       });
+    });
+  }
+
+  deleteMeet(userId: string, meetId: string, event: Event) {
+    event.stopPropagation();
+    this.repoUsers.deleteMeet(userId, meetId).subscribe((data) => {
+      this.state$.next({
+        ...this.state$.value,
+        currentUser: data,
+      });
+    });
+  }
+
+  joinMeet(userId: string, meetId: string) {
+    this.repoUsers.joinMeet(userId, meetId).subscribe((data) => {
+      this.state$.next({
+        ...this.state$.value,
+        currentUser: data,
+      });
+    });
+    this.meetState.next(this.meets);
+  }
+
+  leaveMeet(userId: string, meetId: string) {
+    this.repoUsers.leaveMeet(userId, meetId).subscribe((data) => {
+      this.state$.next({
+        ...this.state$.value,
+        currentUser: data,
+      });
+    });
+    this.meetState.next(this.meets);
+  }
+
+  hasMeet(user: User, meetId: string): boolean {
+    if (user.id && meetId) {
+      return user.joinedMeets.some((meet) => meet.id === meetId);
+    }
+    return false;
   }
 
   setDeleteCardState(shouldDelete: boolean) {

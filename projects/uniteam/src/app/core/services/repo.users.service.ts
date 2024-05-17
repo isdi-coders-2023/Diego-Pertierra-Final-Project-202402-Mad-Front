@@ -27,18 +27,29 @@ export class RepoUsersService {
     return this.httpClient.patch(this.url + '/' + userId, data);
   }
 
-  saveMeet(userId: string, meetId: string, token: string) {
+  saveMeet(userId: string, meetId: string) {
     return this.httpClient.post(
       `${this.url}/${userId}/saved-meets/${meetId}`,
-      {},
-      { headers: { Authorization: 'Bearer ' + token } }
+      {}
     );
   }
 
-  deleteMeet(userId: string, meetId: string, token: string) {
+  deleteMeet(userId: string, meetId: string) {
     return this.httpClient.delete(
-      `${this.url}/${userId}/saved-meets/${meetId}`,
-      { headers: { Authorization: 'Bearer ' + token } }
+      `${this.url}/${userId}/saved-meets/${meetId}`
+    );
+  }
+
+  joinMeet(userId: string, meetId: string) {
+    return this.httpClient.post(
+      `${this.url}/${userId}/joined-meets/${meetId}`,
+      {}
+    );
+  }
+
+  leaveMeet(userId: string, meetId: string) {
+    return this.httpClient.delete(
+      `${this.url}/${userId}/joined-meets/${meetId}`
     );
   }
 }

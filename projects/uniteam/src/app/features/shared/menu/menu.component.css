@@ -2,8 +2,8 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-inline: 2rem;
-  margin-block: 1rem 2rem;
+  padding-inline: 1.5rem;
+  margin-block-start: 1rem;
 }
 
 .mobile-menu {
@@ -75,11 +75,6 @@ hr {
   padding-block: 1rem;
   padding-inline: 1.5rem;
   background-color: var(--ut-dark-green);
-
-  img {
-    border: 5px solid var(--ut-light-green);
-    border-radius: 3rem;
-  }
 
   a {
     font-size: 1.5rem;

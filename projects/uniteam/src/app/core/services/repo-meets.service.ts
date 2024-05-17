@@ -15,7 +15,7 @@ export class RepoMeetsService {
     return this.httpClient.get<Meet[]>(this.url + '/');
   }
 
-  getById(id: string): Observable<Meet> {
+  getById(id: string) {
     return this.httpClient.get<Meet>(this.url + '/' + id);
   }
 }

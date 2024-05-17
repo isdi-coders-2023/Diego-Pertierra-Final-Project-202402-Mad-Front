@@ -2,6 +2,7 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { Meet } from '../../core/models/meet.model';
 import { StateService } from '../../core/services/state.service';
 import { User } from '../../core/models/user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'isdi-meet-card',
@@ -16,6 +17,9 @@ import { User } from '../../core/models/user.model';
         this.state.constructImageUrl(meetInfo.image, '300', '300') +
         ')'
       "
+      tabindex="0"
+      (click)="goToDetails(meetInfo.id)"
+      (keyup)="goToDetails(meetInfo.id)"
     >
       <ul class="meet-card-content">
         <li class="meet-filters">
@@ -31,8 +35,8 @@ import { User } from '../../core/models/user.model';
           class="card-close-btn"
           tabindex="0"
           role="button"
-          (click)="this.state.deleteMeet(currentUser.id, meetInfo.id)"
-          (keyup)="this.state.deleteMeet(currentUser.id, meetInfo.id)"
+          (click)="this.state.deleteMeet(currentUser.id, meetInfo.id, $event)"
+          (keyup)="this.state.deleteMeet(currentUser.id, meetInfo.id, $event)"
         />
         }
         <li>
@@ -45,9 +49,10 @@ import { User } from '../../core/models/user.model';
               <p>{{ meetInfo.location }}</p>
             </li>
             <li class="card-attendees">
-              @if (meetInfo.attendees) {
-              <span>{{ meetInfo.attendees.length }} apuntados</span>
-              }
+              <span>{{
+                meetInfo.attendees ? meetInfo.attendees.length : 0
+              }}</span
+              ><span>apuntados</span>
               <div>
                 <img
                   src="assets/img/icons/send.svg"
@@ -60,8 +65,12 @@ import { User } from '../../core/models/user.model';
                   width="30"
                   tabindex="0"
                   role="button"
-                  (click)="this.state.saveMeet(currentUser.id, meetInfo.id)"
-                  (keyup)="this.state.saveMeet(currentUser.id, meetInfo.id)"
+                  (click)="
+                    this.state.saveMeet(currentUser.id, meetInfo.id, $event)
+                  "
+                  (keyup)="
+                    this.state.saveMeet(currentUser.id, meetInfo.id, $event)
+                  "
                 />
               </div>
             </li>
@@ -75,6 +84,7 @@ import { User } from '../../core/models/user.model';
 })
 export class MeetCardComponent implements OnInit {
   state = inject(StateService);
+  router = inject(Router);
   @Input() meetInfo!: Meet;
   currentUser!: User;
 
@@ -82,5 +92,9 @@ export class MeetCardComponent implements OnInit {
     this.state.getState().subscribe((data) => {
       this.currentUser = data.currentUser as User;
     });
+  }
+
+  goToDetails(id: string) {
+    this.router.navigate([`/meets/${id}`]);
   }
 }
