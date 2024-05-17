@@ -1,0 +1,51 @@
+.meet-details-body {
+  padding-block-end: 1rem;
+  padding-inline: 1.5rem;
+}
+
+h2 {
+  font-size: 3rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-block-end: 0.5rem;
+}
+
+p {
+  font-size: 1.2rem;
+}
+
+section {
+  margin-block-end: 1.5rem;
+}
+
+.user-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-block: 0.5rem;
+
+  img {
+    border-radius: 100%;
+  }
+}
+
+.meet-img-container {
+  width: 100%;
+  height: 15rem;
+  margin-block: 1rem;
+}
+
+.meet-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.details-container {
+  display: flex;
+  gap: 1rem;
+  margin-block-end: 0.5rem;
+}

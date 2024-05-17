@@ -1,0 +1,15 @@
+.user-options {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-block: 0.5rem;
+  padding-inline: 1.5rem;
+  background-color: var(--ut-white);
+}
+
+img {
+  cursor: pointer;
+}

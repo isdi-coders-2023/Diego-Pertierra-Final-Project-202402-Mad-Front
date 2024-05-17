@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-    <button>
+    <button [style.background-color]="backgroundColor">
       {{ label }}
     </button>
   `,
@@ -13,4 +13,5 @@ import { Component, Input } from '@angular/core';
 })
 export class ButtonComponent {
   @Input() label!: string;
+  @Input() backgroundColor: string = 'rgb(71, 177, 111)';
 }

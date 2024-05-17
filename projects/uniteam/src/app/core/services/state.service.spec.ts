@@ -5,6 +5,7 @@ import { RepoUsersService } from './repo.users.service';
 import { RepoMeetsService } from './repo-meets.service';
 import { Meet } from '../models/meet.model';
 import { Observable, of } from 'rxjs';
+import { User } from '../models/user.model';
 
 describe('StateService', () => {
   let stateService: StateService;
@@ -19,9 +20,16 @@ describe('StateService', () => {
       'update',
       'saveMeet',
       'deleteMeet',
+      'joinMeet',
+      'leaveMeet',
+      'loadMeetById',
+      'hasMeet',
     ]);
 
-    const repoMeetsSpy = jasmine.createSpyObj('RepoMeetsService', ['getAll']);
+    const repoMeetsSpy = jasmine.createSpyObj('RepoMeetsService', [
+      'getAll',
+      'getById',
+    ]);
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -89,13 +97,14 @@ describe('StateService', () => {
   it('should return filtered and mapped routes', () => {
     const result = stateService.setRoutes();
 
-    expect(result.length).toBe(6);
+    expect(result.length).toBe(7);
     expect(result).toEqual([
       { title: 'Landing', path: 'landing' },
       { title: 'Home', path: 'home' },
       { title: 'Login', path: 'login' },
       { title: 'Registro', path: 'register' },
       { title: 'Quedadas', path: 'meets' },
+      { title: 'Quedada', path: 'meets/:id' },
       { title: 'Error', path: 'error' },
     ]);
   });
@@ -163,13 +172,11 @@ describe('StateService', () => {
     });
     repoUsersService.saveMeet.and.returnValue(of(mockUser));
 
-    stateService.saveMeet(userId, meetId);
+    const mockEvent = new MouseEvent('click');
 
-    expect(repoUsersService.saveMeet).toHaveBeenCalledWith(
-      userId,
-      meetId,
-      token
-    );
+    stateService.saveMeet(userId, meetId, mockEvent);
+
+    expect(repoUsersService.saveMeet).toHaveBeenCalledWith(userId, meetId);
 
     expect(stateService.state.currentUser).toEqual(mockUser);
   });
@@ -186,15 +193,55 @@ describe('StateService', () => {
 
     repoUsersService.deleteMeet.and.returnValue(of({}));
 
-    stateService.deleteMeet(userId, meetId);
+    const mockEvent = new MouseEvent('click');
 
-    expect(repoUsersService.deleteMeet).toHaveBeenCalledWith(
-      userId,
-      meetId,
-      token
-    );
+    stateService.deleteMeet(userId, meetId, mockEvent);
+
+    expect(repoUsersService.deleteMeet).toHaveBeenCalledWith(userId, meetId);
 
     expect(stateService['state$'].value.currentUser).toEqual({});
+  });
+
+  it('should join meet for user', () => {
+    const userId = '1';
+    const meetId = '2';
+    const mockUser = { id: userId, joinedMeets: [] } as unknown as User;
+    repoUsersService.joinMeet.and.returnValue(of(mockUser));
+
+    stateService.joinMeet(userId, meetId);
+
+    expect(repoUsersService.joinMeet).toHaveBeenCalledWith(userId, meetId);
+    expect(stateService.state.currentUser).toEqual(mockUser);
+  });
+
+  it('should leave meet for user', () => {
+    const userId = '1';
+    const meetId = '2';
+    const mockUser = { id: userId, joinedMeets: [] } as unknown as User;
+    repoUsersService.leaveMeet.and.returnValue(of(mockUser));
+
+    stateService.leaveMeet(userId, meetId);
+
+    expect(repoUsersService.leaveMeet).toHaveBeenCalledWith(userId, meetId);
+    expect(stateService.state.currentUser).toEqual(mockUser);
+  });
+
+  it('should check if user has meet', () => {
+    const userId = '1';
+    const meetId = '2';
+    const mockUser = { id: userId, joinedMeets: [{ id: meetId }] } as User;
+    const result = stateService.hasMeet(mockUser, meetId);
+
+    expect(result).toBe(true);
+  });
+
+  it('should return false if user does not have meet', () => {
+    const userId = '1';
+    const meetId = '2';
+    const mockUser = { id: userId, joinedMeets: [{ id: '10' }] } as User;
+    const result = stateService.hasMeet(mockUser, meetId);
+
+    expect(result).toBe(false);
   });
 
   it('should set delete card state', () => {

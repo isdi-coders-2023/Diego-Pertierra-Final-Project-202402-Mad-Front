@@ -28,6 +28,12 @@ export const routes: Routes = [
     loadComponent: () => import('./features/meets/meets.component'),
   },
   {
+    path: 'meets/:id',
+    title: 'Quedada',
+    loadComponent: () =>
+      import('./features/meet-details/meet-details.component'),
+  },
+  {
     path: 'error',
     title: 'Error',
     loadComponent: () => import('./features/error/error.component'),

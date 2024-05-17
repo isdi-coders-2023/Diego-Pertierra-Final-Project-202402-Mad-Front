@@ -1,3 +1,7 @@
+section {
+  padding-block-start: 1rem;
+}
+
 h2 {
   text-align: center;
   margin-block-end: 2rem;

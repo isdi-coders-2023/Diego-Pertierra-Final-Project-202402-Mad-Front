@@ -1,10 +1,9 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MenuComponent } from './menu.component';
 import { StateService, State } from '../../../core/services/state.service';
 import { Router, Routes, provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { User } from '../../../core/models/user.model';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;

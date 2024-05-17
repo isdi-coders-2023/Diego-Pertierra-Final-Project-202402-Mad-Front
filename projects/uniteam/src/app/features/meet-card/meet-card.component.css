@@ -44,3 +44,7 @@
   top: 0.8rem;
   right: 1rem;
 }
+
+img[role='button'] {
+  z-index: 5;
+}

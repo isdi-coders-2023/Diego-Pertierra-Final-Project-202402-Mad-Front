@@ -3,11 +3,11 @@ import { Router, RouterModule } from '@angular/router';
 import { MenuOption } from '../../../core/models/menu-option';
 import { StateService, State } from '../../../core/services/state.service';
 import { User } from '../../../core/models/user.model';
+import { ProfileAvatarComponent } from '../profile-avatar/profile-avatar.component';
 
 @Component({
   selector: 'isdi-menu',
   standalone: true,
-  imports: [RouterModule],
   template: `
     <nav>
       <a href="#" [routerLink]="'/home'">
@@ -40,9 +40,8 @@ import { User } from '../../../core/models/user.model';
           (keyup)="toggleMobileMenu()"
           role="button"
         />
-        @for (item of items; track $index) { @if (item.path !== 'landing' &&
-        item.path !== 'error' && item.path !== 'login' && item.path !==
-        'register') {
+        @for (item of items; track $index) { @if (item.path === 'home' ||
+        item.path === 'meets') {
         <li>
           <a [routerLink]="'/' + item.path" routerLinkActive="active">{{
             item.title
@@ -58,16 +57,11 @@ import { User } from '../../../core/models/user.model';
           </ul>
         </li>
         <li class="user-flex">
-          @if (currentUser && currentUser.avatar) {
-          <img
-            src="{{
-              this.stateService.constructImageUrl(
-                currentUser.avatar,
-                '60',
-                '60'
-              )
-            }}"
-            alt="Imagen del usuario"
+          @if (currentUser) {
+          <isdi-profile-avatar
+            [avatar]="currentUser.avatar"
+            [width]="'60'"
+            [height]="'60'"
           />
           }
           <a class="logout" href="#" (click)="logout()">Cerrar sesión</a>
@@ -76,9 +70,8 @@ import { User } from '../../../core/models/user.model';
       } @else {
       <ul class="desktop-menu">
         <div class="desktop-links">
-          @for (item of items; track $index) { @if (item.path !== 'landing' &&
-          item.path !== 'error' && item.path !== 'login' && item.path !==
-          'register') {
+          @for (item of items; track $index) { @if (item.path === 'home' ||
+          item.path === 'meets') {
           <li>
             <a [routerLink]="'/' + item.path" routerLinkActive="active">{{
               item.title
@@ -123,6 +116,7 @@ import { User } from '../../../core/models/user.model';
     </nav>
   `,
   styleUrl: './menu.component.css',
+  imports: [RouterModule, ProfileAvatarComponent],
 })
 export class MenuComponent implements OnInit {
   router = inject(Router);
