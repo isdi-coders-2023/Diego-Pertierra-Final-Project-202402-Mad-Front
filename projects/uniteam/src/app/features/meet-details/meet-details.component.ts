@@ -16,6 +16,7 @@ import { ProfileAvatarComponent } from '../shared/profile-avatar/profile-avatar.
       <section>
         <h2>{{ meetDetails.title }}</h2>
         <div class="user-info">
+          @if (meetDetails.creator.avatar) {
           <img
             src="{{
               this.stateSrv.constructImageUrl(
@@ -26,6 +27,7 @@ import { ProfileAvatarComponent } from '../shared/profile-avatar/profile-avatar.
             }}"
             alt="Avatar del usuario"
           />
+          }
           <h3>{{ meetDetails.creator.username }}</h3>
         </div>
       </section>

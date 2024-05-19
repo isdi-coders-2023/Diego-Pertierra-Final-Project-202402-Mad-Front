@@ -30,6 +30,7 @@ describe('StateService', () => {
     const repoMeetsSpy = jasmine.createSpyObj('RepoMeetsService', [
       'getAll',
       'getById',
+      'searchByName',
     ]);
 
     TestBed.configureTestingModule({
@@ -292,5 +293,23 @@ describe('StateService', () => {
 
       expect(formattedDate).toEqual('19-05-2024');
     });
+  });
+
+  it('should search meets by title and update state$', () => {
+    const searchTerm = 'test';
+    const mockMeets: Meet[] = [
+      { id: '1', title: 'Test Meet 1' },
+      { id: '2', title: 'Test Meet 2' },
+    ] as Meet[];
+
+    repoMeetsService.searchByName.and.returnValue(of(mockMeets));
+
+    stateService.searchMeetsByTitle(searchTerm);
+
+    stateService.getState().subscribe((state) => {
+      expect(state.meets).toEqual(mockMeets);
+    });
+
+    expect(repoMeetsService.searchByName).toHaveBeenCalledWith(searchTerm);
   });
 });

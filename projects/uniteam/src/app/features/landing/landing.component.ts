@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ButtonComponent } from '../shared/button/button.component';
+import { SearchbarComponent } from '../searchbar/searchbar.component';
+import { AsyncPipe } from '@angular/common';
+import { MeetListComponent } from '../meet-list/meet-list.component';
+import { StateService } from '../../core/services/state.service';
 
 @Component({
   selector: 'isdi-landing',
   standalone: true,
-  imports: [RouterModule, ButtonComponent],
   template: `
     <main>
       <section>
@@ -27,10 +30,40 @@ import { ButtonComponent } from '../shared/button/button.component';
           [routerLink]="'/register'"
           routerLinkActive="active"
         />
-        <h2>Aquí irá la barra de búsqueda</h2>
+        <isdi-searchbar (searchSubmitted)="showMeetsSection()" />
       </section>
+      @if (showSection) {
+      <section #meetSection>
+        @if (state.getState() | async; as state) {
+        <isdi-meet-list [meetList]="state.meets" [cardDeleteState]="false" />
+        }
+      </section>
+      }
     </main>
   `,
   styleUrl: './landing.component.css',
+  imports: [
+    RouterModule,
+    ButtonComponent,
+    SearchbarComponent,
+    AsyncPipe,
+    MeetListComponent,
+  ],
 })
-export default class LandingComponent {}
+export default class LandingComponent {
+  state = inject(StateService);
+  @ViewChild('meetSection') meetSection!: ElementRef;
+  showSection = false;
+
+  showMeetsSection() {
+    this.showSection = true;
+    setTimeout(() => {
+      if (this.meetSection && this.meetSection.nativeElement) {
+        this.meetSection.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }
+    }, 100);
+  }
+}

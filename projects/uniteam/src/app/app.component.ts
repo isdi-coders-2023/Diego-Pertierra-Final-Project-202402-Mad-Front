@@ -4,6 +4,7 @@ import { StateService } from './core/services/state.service';
 import { HeaderComponent } from './features/shared/header/header.component';
 import { FooterComponent } from './features/shared/footer/footer.component';
 import { filter } from 'rxjs';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'isdi-root',
@@ -35,6 +36,8 @@ export class AppComponent implements OnDestroy {
     this.navigationSubscription = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {});
+
+    console.log(environment.production);
   }
 
   shouldShowHeader(): boolean {

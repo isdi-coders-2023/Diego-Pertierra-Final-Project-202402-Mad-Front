@@ -23,4 +23,8 @@ export class RepoMeetsService {
     const url = this.url + '/';
     return this.httpClient.post(url, data);
   }
+
+  searchByName(title: string): Observable<Meet[]> {
+    return this.httpClient.get<Meet[]>(this.url + '?title=' + title);
+  }
 }

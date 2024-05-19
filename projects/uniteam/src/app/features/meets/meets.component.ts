@@ -3,11 +3,13 @@ import { StateService } from '../../core/services/state.service';
 import { MeetListComponent } from '../meet-list/meet-list.component';
 import { AsyncPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { SearchbarComponent } from '../searchbar/searchbar.component';
 
 @Component({
   selector: 'isdi-meets',
   standalone: true,
   template: `
+    <isdi-searchbar />
     <div>
       <h2>Todas las quedadas</h2>
       <button [routerLink]="'/create-meet'">Crear quedada</button>
@@ -17,7 +19,7 @@ import { RouterModule } from '@angular/router';
     }
   `,
   styleUrl: './meets.component.css',
-  imports: [MeetListComponent, AsyncPipe, RouterModule],
+  imports: [MeetListComponent, AsyncPipe, RouterModule, SearchbarComponent],
 })
 export default class MeetsComponent implements OnInit {
   state = inject(StateService);
