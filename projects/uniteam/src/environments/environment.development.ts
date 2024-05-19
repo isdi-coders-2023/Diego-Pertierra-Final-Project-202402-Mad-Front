@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  API_URL: 'http://localhost:3400',
+  API_URL: 'https://diego-pertierra-final-project-202402-mad.onrender.com',
 };
