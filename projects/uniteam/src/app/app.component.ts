@@ -39,12 +39,16 @@ export class AppComponent implements OnDestroy {
 
   shouldShowHeader(): boolean {
     const currentRoute = this.router.routerState.snapshot.url;
-    return !['/landing', '/login', '/register'].includes(currentRoute);
+    return !['/landing', '/login', '/register', '/create-meet'].includes(
+      currentRoute
+    );
   }
 
   shouldShowFooter(): boolean {
     const currentRoute = this.router.routerState.snapshot.url;
-    return !['/landing', '/login', '/register'].includes(currentRoute);
+    return !['/landing', '/login', '/register', '/create-meet'].includes(
+      currentRoute
+    );
   }
 
   ngOnDestroy() {

@@ -18,4 +18,9 @@ export class RepoMeetsService {
   getById(id: string) {
     return this.httpClient.get<Meet>(this.url + '/' + id);
   }
+
+  create(data: FormData) {
+    const url = this.url + '/';
+    return this.httpClient.post(url, data);
+  }
 }

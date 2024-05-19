@@ -63,12 +63,9 @@ import { SubmitBtnComponent } from '../shared/submit-btn/submit-btn.component';
           />
         </label>
         @if (imageUrl) {
-        <img
-          class="input-img"
-          src="{{ imageUrl }}"
-          alt="Selected Image"
-          width="70"
-        />
+        <div class="input-img-container">
+          <img class="input-img" src="{{ imageUrl }}" alt="Selected Image" />
+        </div>
         }
       </div>
       <div class="form-control">

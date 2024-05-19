@@ -98,7 +98,7 @@ describe('StateService', () => {
   it('should return filtered and mapped routes', () => {
     const result = stateService.setRoutes();
 
-    expect(result.length).toBe(8);
+    expect(result.length).toBe(9);
     expect(result).toEqual([
       { title: 'Landing', path: 'landing' },
       { title: 'Home', path: 'home' },
@@ -107,6 +107,7 @@ describe('StateService', () => {
       { title: 'Quedadas', path: 'meets' },
       { title: 'Quedada', path: 'meets/:id' },
       { title: 'Perfil', path: 'profile' },
+      { title: 'Nueva quedada', path: 'create-meet' },
       { title: 'Error', path: 'error' },
     ]);
   });

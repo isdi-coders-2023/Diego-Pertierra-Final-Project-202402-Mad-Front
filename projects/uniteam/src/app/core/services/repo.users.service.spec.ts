@@ -125,4 +125,14 @@ describe('RepoUsersService', () => {
     expect(req.request.method).toBe('DELETE');
     req.flush({});
   });
+
+  it('should delete user', () => {
+    const userId = '1';
+    service.delete(userId).subscribe((data) => {
+      expect(data).toBeTruthy();
+    });
+    const req = httpMock.expectOne(`http://localhost:3400/users/${userId}`);
+    expect(req.request.method).toBe('DELETE');
+    req.flush({});
+  });
 });

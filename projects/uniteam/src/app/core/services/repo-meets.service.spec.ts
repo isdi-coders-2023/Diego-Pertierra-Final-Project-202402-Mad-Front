@@ -55,4 +55,17 @@ describe('RepoMeetsService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(mockMeet);
   });
+
+  it('should create meet', () => {
+    const testData: FormData = {
+      id: '2',
+      title: 'Furbo',
+    } as unknown as FormData;
+    service.create(testData).subscribe((data) => {
+      expect(data).toEqual(testData);
+    });
+    const req = httpMock.expectOne(`http://localhost:3400/meets/`);
+    expect(req.request.method).toBe('POST');
+    req.flush(testData);
+  });
 });

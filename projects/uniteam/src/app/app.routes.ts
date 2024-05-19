@@ -39,6 +39,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/profile/profile.component'),
   },
   {
+    path: 'create-meet',
+    title: 'Nueva quedada',
+    loadComponent: () => import('./features/create-meet/create-meet.component'),
+  },
+  {
     path: 'error',
     title: 'Error',
     loadComponent: () => import('./features/error/error.component'),
