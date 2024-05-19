@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import RegisterComponent from './register.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { RepoUsersService } from '../../core/services/repo.users.service';
 import { Router, Routes, provideRouter } from '@angular/router';
 import { of } from 'rxjs';
@@ -18,11 +18,7 @@ describe('RegisterComponent', () => {
     //mockRouter = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
-      imports: [
-        RegisterComponent,
-        HttpClientTestingModule,
-        ReactiveFormsModule,
-      ],
+      imports: [RegisterComponent, HttpClientTestingModule],
       providers: [
         provideRouter([] as Routes),
         FormBuilder,

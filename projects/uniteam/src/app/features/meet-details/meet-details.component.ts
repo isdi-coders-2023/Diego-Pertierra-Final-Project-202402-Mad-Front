@@ -12,7 +12,6 @@ import { ProfileAvatarComponent } from '../shared/profile-avatar/profile-avatar.
   standalone: true,
   template: `
     @if (meetDetails) {
-    <img src="" alt="" />
     <article class="meet-details-body">
       <section>
         <h2>{{ meetDetails.title }}</h2>

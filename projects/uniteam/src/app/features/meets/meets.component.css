@@ -1,4 +1,35 @@
+div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding-inline: 1.5rem;
+  margin-block: 2rem;
+}
+
 h2 {
   text-align: center;
-  margin-block: 1rem 2rem;
+}
+
+button {
+  display: block;
+  font-family: 'Syne', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding-block: 0.8rem;
+  padding-inline: 1rem;
+  color: var(--ut-white);
+  background: rgb(71, 177, 111);
+  background: linear-gradient(
+    0deg,
+    rgba(71, 177, 111, 1) 0%,
+    rgba(9, 125, 90, 1) 100%
+  );
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background: rgb(27, 80, 47);
 }
