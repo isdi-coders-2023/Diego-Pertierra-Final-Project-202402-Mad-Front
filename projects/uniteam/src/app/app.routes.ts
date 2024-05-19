@@ -34,6 +34,11 @@ export const routes: Routes = [
       import('./features/meet-details/meet-details.component'),
   },
   {
+    path: 'profile',
+    title: 'Perfil',
+    loadComponent: () => import('./features/profile/profile.component'),
+  },
+  {
     path: 'error',
     title: 'Error',
     loadComponent: () => import('./features/error/error.component'),

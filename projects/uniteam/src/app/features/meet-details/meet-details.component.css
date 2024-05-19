@@ -49,3 +49,9 @@ section {
   gap: 1rem;
   margin-block-end: 0.5rem;
 }
+
+.attendees {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}

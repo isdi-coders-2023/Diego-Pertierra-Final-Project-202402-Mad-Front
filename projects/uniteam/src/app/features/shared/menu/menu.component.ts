@@ -1,9 +1,10 @@
 import { Component, HostListener, Input, OnInit, inject } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { MenuOption } from '../../../core/models/menu-option';
 import { StateService, State } from '../../../core/services/state.service';
 import { User } from '../../../core/models/user.model';
 import { ProfileAvatarComponent } from '../profile-avatar/profile-avatar.component';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'isdi-menu',
@@ -51,7 +52,7 @@ import { ProfileAvatarComponent } from '../profile-avatar/profile-avatar.compone
         <hr />
         <li>
           <ul class="profile-links">
-            <li><a href="#">Perfil</a></li>
+            <li><a href="#" [routerLink]="'/profile'">Perfil</a></li>
             <li><a href="#">Amigos</a></li>
             <li><a href="#">Mensajes</a></li>
           </ul>
@@ -96,7 +97,7 @@ import { ProfileAvatarComponent } from '../profile-avatar/profile-avatar.compone
           />
           }
           <ul [class]="profileMenuClass">
-            <li><a href="#">Perfil</a></li>
+            <li><a href="#" [routerLink]="'/profile'">Perfil</a></li>
             <li><a href="#">Amigos</a></li>
             <li><a href="#">Mensajes</a></li>
             <li>
@@ -148,6 +149,17 @@ export class MenuComponent implements OnInit {
     } catch (error) {
       this.currentUser = {} as User;
     }
+
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        if (this.isMobileMenuOpen) {
+          this.toggleMobileMenu();
+        }
+        if (this.isProfileMenuOpen) {
+          this.toggleProfileMenu();
+        }
+      });
   }
 
   checkViewport() {

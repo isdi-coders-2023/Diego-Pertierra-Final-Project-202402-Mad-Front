@@ -27,7 +27,7 @@ import { Router } from '@angular/router';
             meetInfo.sport.charAt(0).toUpperCase() + meetInfo.sport.slice(1)
           }}</span>
         </li>
-        @if (this.state.getDeleteCardState()) {
+        @if (this.cardDeleteState) {
         <img
           src="assets/img/icons/close-w.svg"
           alt="Icono de eliminar tarjeta"
@@ -86,6 +86,7 @@ export class MeetCardComponent implements OnInit {
   state = inject(StateService);
   router = inject(Router);
   @Input() meetInfo!: Meet;
+  @Input() cardDeleteState!: boolean;
   currentUser!: User;
 
   ngOnInit(): void {

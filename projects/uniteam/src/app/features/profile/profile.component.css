@@ -1,0 +1,109 @@
+.profile-container {
+  padding-block: 1rem;
+  padding-inline: 1.5rem;
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+.user-info {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-block: 1rem;
+
+  strong {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 0.8rem;
+  }
+
+  li {
+    background-color: var(--ut-green);
+    padding-block: 0.5rem;
+    padding-inline: 1rem;
+    width: 45%;
+    max-width: 230px;
+    min-width: 120px;
+    border-radius: 0.5rem;
+  }
+}
+
+form {
+  img {
+    border-radius: 100%;
+  }
+
+  section:first-of-type {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-block: 2rem 1rem;
+  }
+
+  .img-container {
+    width: 300px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  label,
+  input {
+    width: 100%;
+    margin-block: 0.5rem;
+  }
+
+  input {
+    padding-block: 0.6rem;
+    border-radius: 0.4rem;
+    border: grey solid 0.1px;
+    padding-inline-start: 1rem;
+  }
+
+  input[type='file'] {
+    color: rgba(0, 0, 0, 0);
+    padding-block: 2rem;
+    border: none;
+    padding-inline-start: 0;
+  }
+
+  input[type='file']::file-selector-button {
+    background: rgb(71, 177, 111);
+    background: linear-gradient(
+      0deg,
+      rgba(71, 177, 111, 1) 0%,
+      rgba(9, 125, 90, 1) 100%
+    );
+    color: var(--ut-white);
+    border: none;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-family: 'Syne', monospace;
+    padding-block: 0.8rem;
+    padding-inline: 1rem;
+    cursor: pointer;
+  }
+
+  input[type='date'] {
+    padding-inline-end: 1rem;
+  }
+
+  label span {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  label p {
+    margin-block-start: 1rem;
+  }
+}
+
+.friends-section {
+  margin-block: 3rem;
+}

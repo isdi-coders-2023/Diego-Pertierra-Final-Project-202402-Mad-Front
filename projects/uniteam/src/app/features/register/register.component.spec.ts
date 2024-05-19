@@ -75,7 +75,7 @@ describe('RegisterComponent', () => {
       username: 'testuser',
       email: 'test@example.com',
       password: 'password',
-      birthDateString: '2000-01-01',
+      birthDate: '2000-01-01',
       avatar: file,
       location: 'Test Location',
       gender: 'male',

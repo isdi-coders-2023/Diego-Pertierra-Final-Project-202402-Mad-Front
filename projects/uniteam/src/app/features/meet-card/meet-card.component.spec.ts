@@ -20,4 +20,13 @@ describe('MeetCardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should navigate to meet details when goToDetails is called', () => {
+    const id = '123';
+    const routerSpy = spyOn(component.router, 'navigate').and.stub();
+
+    component.goToDetails(id);
+
+    expect(routerSpy).toHaveBeenCalledWith(['/meets' + '/' + id]);
+  });
 });

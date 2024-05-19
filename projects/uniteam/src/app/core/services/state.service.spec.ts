@@ -5,7 +5,7 @@ import { RepoUsersService } from './repo.users.service';
 import { RepoMeetsService } from './repo-meets.service';
 import { Meet } from '../models/meet.model';
 import { Observable, of } from 'rxjs';
-import { User } from '../models/user.model';
+import { User, UserUpdateDto } from '../models/user.model';
 
 describe('StateService', () => {
   let stateService: StateService;
@@ -18,6 +18,7 @@ describe('StateService', () => {
       'getById',
       'create',
       'update',
+      'delete',
       'saveMeet',
       'deleteMeet',
       'joinMeet',
@@ -97,7 +98,7 @@ describe('StateService', () => {
   it('should return filtered and mapped routes', () => {
     const result = stateService.setRoutes();
 
-    expect(result.length).toBe(7);
+    expect(result.length).toBe(8);
     expect(result).toEqual([
       { title: 'Landing', path: 'landing' },
       { title: 'Home', path: 'home' },
@@ -105,6 +106,7 @@ describe('StateService', () => {
       { title: 'Registro', path: 'register' },
       { title: 'Quedadas', path: 'meets' },
       { title: 'Quedada', path: 'meets/:id' },
+      { title: 'Perfil', path: 'profile' },
       { title: 'Error', path: 'error' },
     ]);
   });
@@ -244,15 +246,50 @@ describe('StateService', () => {
     expect(result).toBe(false);
   });
 
-  it('should set delete card state', () => {
-    const shouldDelete = true;
-    stateService.setDeleteCardState(shouldDelete);
-    expect(stateService.getDeleteCardState()).toBe(shouldDelete);
+  it('should update user and emit updated user state', () => {
+    const mockUser: UserUpdateDto = { id: '1', username: 'John Doe' };
+    const updatedUser: UserUpdateDto = { id: '1', username: 'Updated Name' };
+
+    repoUsersService.update.and.returnValue(of(updatedUser)); // Use repoUsersService here
+    const nextSpy = spyOn(stateService['state$'], 'next').and.callThrough();
+
+    stateService.updateUser(mockUser).subscribe((result) => {
+      expect(result).toEqual(updatedUser);
+    });
+
+    expect(nextSpy).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        currentUser: updatedUser,
+      })
+    );
   });
 
-  it('should get delete card state', () => {
-    const initialState = false;
-    stateService.cardDeleteState = initialState;
-    expect(stateService.getDeleteCardState()).toBe(initialState);
+  it('should delete user and emit updated user state', () => {
+    const userId = '1';
+
+    repoUsersService.delete.and.returnValue(of({}));
+    const nextSpy = spyOn(stateService['state$'], 'next').and.callThrough();
+
+    stateService.deleteUser(userId);
+
+    expect(nextSpy).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        loginState: 'idle',
+        token: null,
+        currentPayload: null,
+        currentUser: Object({}),
+        meets: [],
+      })
+    );
+  });
+
+  describe('formatDate', () => {
+    it('should format the date correctly', () => {
+      const date = new Date('2024-05-19T12:00:00');
+
+      const formattedDate = stateService.formatDate(date);
+
+      expect(formattedDate).toEqual('19-05-2024');
+    });
   });
 });

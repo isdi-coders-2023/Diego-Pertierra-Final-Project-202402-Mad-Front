@@ -32,3 +32,14 @@ export type UserRegisterDto = {
   avatar: File;
   birthDateString: string;
 };
+
+export type UserUpdateDto = {
+  id?: string;
+  username?: string;
+  email?: string;
+  password?: string;
+  avatar?: string;
+  location?: string;
+  birthDate?: Date;
+  bio?: string;
+};

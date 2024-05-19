@@ -10,7 +10,7 @@ import { Meet } from '../../core/models/meet.model';
     <ul class="meet-list">
       @for (meet of meetList; track $index) {
       <li>
-        <isdi-meet-card [meetInfo]="meet" />
+        <isdi-meet-card [meetInfo]="meet" [cardDeleteState]="cardDeleteState" />
       </li>
       }
     </ul>
@@ -19,4 +19,5 @@ import { Meet } from '../../core/models/meet.model';
 })
 export class MeetListComponent {
   @Input() meetList!: Meet[];
+  @Input() cardDeleteState!: boolean;
 }
