@@ -74,7 +74,7 @@ import { SubmitBtnComponent } from '../shared/submit-btn/submit-btn.component';
       <div class="form-control">
         <label>
           <span>Fecha de nacimiento</span>
-          <input type="date" formControlName="birthDateString" />
+          <input type="date" formControlName="birthDate" />
         </label>
       </div>
       <div class="form-control">
@@ -124,7 +124,7 @@ export default class RegisterComponent {
       email: ['', Validators.required],
       password: ['', Validators.required],
       avatar: [null],
-      birthDateString: [''],
+      birthDate: [null],
       location: [''],
       gender: ['', Validators.required],
       bio: [''],
@@ -149,7 +149,7 @@ export default class RegisterComponent {
     fd.append('username', this.registerForm.value.username);
     fd.append('email', this.registerForm.value.email);
     fd.append('password', this.registerForm.value.password);
-    fd.append('birthDateString', this.registerForm.value.birthDateString);
+    fd.append('birthDate', this.registerForm.value.birthDate);
     fd.append('avatar', this.registerForm.value.avatar);
     fd.append('location', this.registerForm.value.location);
     fd.append('gender', this.registerForm.value.gender);

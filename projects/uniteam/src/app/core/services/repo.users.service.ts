@@ -27,6 +27,10 @@ export class RepoUsersService {
     return this.httpClient.patch(this.url + '/' + userId, data);
   }
 
+  delete(userId: string) {
+    return this.httpClient.delete(`${this.url}/${userId}`);
+  }
+
   saveMeet(userId: string, meetId: string) {
     return this.httpClient.post(
       `${this.url}/${userId}/saved-meets/${meetId}`,

@@ -66,14 +66,16 @@ import { ProfileAvatarComponent } from '../shared/profile-avatar/profile-avatar.
         @if(!meetDetails.attendees) {
         <p>Aún no hay ningún asistente para este evento</p>
         } @else {
-        <ul>
+        <ul class="attendees">
           @for (attendee of meetDetails.attendees; track $index) {
           <li>
+            @if (attendee.avatar) {
             <isdi-profile-avatar
-              [avatar]="attendee.avatar!"
+              [avatar]="attendee?.avatar!"
               [width]="'60'"
               [height]="'60'"
             />
+            }
           </li>
           }
         </ul>

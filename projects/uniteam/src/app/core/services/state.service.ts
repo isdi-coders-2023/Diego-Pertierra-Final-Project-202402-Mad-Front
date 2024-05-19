@@ -1,11 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { routes } from '../../app.routes';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
-import { BehaviorSubject, Observable, filter, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, switchMap } from 'rxjs';
 import { RepoUsersService } from './repo.users.service';
 import { RepoMeetsService } from './repo-meets.service';
 import { Meet } from '../models/meet.model';
-import { User } from '../models/user.model';
+import { User, UserUpdateDto } from '../models/user.model';
 
 type LoginState = 'idle' | 'logging' | 'logged' | 'error';
 
@@ -43,7 +43,6 @@ export class StateService {
 
   jwtDecode = jwtDecode;
   private meets: Meet[] = [];
-  cardDeleteState!: boolean;
 
   getState(): Observable<State> {
     return this.state$.asObservable();
@@ -172,11 +171,31 @@ export class StateService {
     return false;
   }
 
-  setDeleteCardState(shouldDelete: boolean) {
-    return (this.cardDeleteState = shouldDelete);
+  updateUser(user: UserUpdateDto): Observable<UserUpdateDto> {
+    return this.repoUsers.update(user, user.id as string).pipe(
+      map((updatedUser) => {
+        const currentState = this.state$.value;
+        this.state$.next({ ...currentState, currentUser: updatedUser });
+        return updatedUser as UserUpdateDto;
+      })
+    );
   }
 
-  getDeleteCardState() {
-    return this.cardDeleteState;
+  deleteUser(userId: string) {
+    return this.repoUsers.delete(userId).subscribe((data) => {
+      this.state$.next({
+        ...this.state$.value,
+        currentUser: data,
+      });
+    });
+  }
+
+  formatDate(date: Date) {
+    const dateObject = new Date(date);
+    const year = dateObject.getFullYear();
+    const month = (dateObject.getMonth() + 1).toString().padStart(2, '0');
+    const day = dateObject.getDate().toString().padStart(2, '0');
+
+    return `${day}-${month}-${year}`;
   }
 }

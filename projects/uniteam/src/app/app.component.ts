@@ -34,9 +34,7 @@ export class AppComponent implements OnDestroy {
 
     this.navigationSubscription = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        // Handle route change here
-      });
+      .subscribe(() => {});
   }
 
   shouldShowHeader(): boolean {

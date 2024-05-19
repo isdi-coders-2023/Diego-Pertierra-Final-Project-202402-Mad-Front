@@ -19,10 +19,16 @@ import { MeetListComponent } from '../meet-list/meet-list.component';
       }
 
       <h2>Tus quedadas</h2>
-      <isdi-meet-list [meetList]="currentUser.joinedMeets" />
+      <isdi-meet-list
+        [meetList]="currentUser.joinedMeets"
+        [cardDeleteState]="false"
+      />
 
       <h2>Tus quedadas guardadas</h2>
-      <isdi-meet-list [meetList]="currentUser.savedMeets" />
+      <isdi-meet-list
+        [meetList]="currentUser.savedMeets"
+        [cardDeleteState]="true"
+      />
     </section>
     }
   `,
@@ -39,6 +45,5 @@ export default class HomeComponent implements OnInit {
       this.state = state;
       this.currentUser = state.currentUser as User;
     });
-    this.stateService.setDeleteCardState(true);
   }
 }

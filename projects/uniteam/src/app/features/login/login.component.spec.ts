@@ -83,7 +83,6 @@ describe('LoginComponent', () => {
       password: 'testPassword',
     });
     expect(stateServiceMock.setLoginState).toHaveBeenCalledWith('error');
-    expect(router.navigate).toHaveBeenCalledWith(['/home']);
   });
 
   it('should pass email as part of login data if provided username is an email', () => {

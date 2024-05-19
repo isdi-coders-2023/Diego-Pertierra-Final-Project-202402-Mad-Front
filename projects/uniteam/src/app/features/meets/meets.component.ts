@@ -10,7 +10,7 @@ import { AsyncPipe } from '@angular/common';
   template: `
     <h2>Todas las quedadas</h2>
     @if (state.getState() | async; as state) {
-    <isdi-meet-list [meetList]="state.meets" />
+    <isdi-meet-list [meetList]="state.meets" [cardDeleteState]="false"/>
     }
   `,
   styleUrl: './meets.component.css',
@@ -20,6 +20,5 @@ export default class MeetsComponent implements OnInit {
 
   ngOnInit() {
     this.state.loadMeets();
-    this.state.setDeleteCardState(false);
   }
 }

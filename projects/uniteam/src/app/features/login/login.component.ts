@@ -55,6 +55,7 @@ import { SubmitBtnComponent } from '../shared/submit-btn/submit-btn.component';
         <input id="remember" type="checkbox" />
         <label for="remember">Recuérdame</label>
       </div>
+      <p class="error-message">{{ errorMessage }}</p>
       <isdi-submit-btn
         [label]="'Iniciar sesión'"
         [disabled]="formLogin.invalid"
@@ -68,6 +69,7 @@ export default class LoginComponent {
   private state = inject(StateService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  errorMessage: string = '';
   formLogin = this.fb.group({
     user: ['', Validators.required],
     password: ['', Validators.required],
@@ -87,13 +89,13 @@ export default class LoginComponent {
       next: ({ token }) => {
         this.state.setLogin(token);
         console.log('Logged in', token);
+        this.router.navigate(['/home']);
       },
       error: (err) => {
         console.error(err);
         this.state.setLoginState('error');
+        this.errorMessage = 'Error: El usuario o la contraseña son incorrectos';
       },
     });
-
-    this.router.navigate(['/home']);
   }
 }
