@@ -36,6 +36,10 @@
   img {
     padding-inline: 0.2rem;
   }
+
+  span {
+    padding-inline-end: 0.5rem;
+  }
 }
 
 .card-close-btn {

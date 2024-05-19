@@ -11,11 +11,11 @@ import { environment } from '../environments/environment';
   standalone: true,
   imports: [RouterOutlet, HeaderComponent, FooterComponent],
   template: `
-    @if (shouldShowHeader()) {
+    @if (shouldShowHeaderAndFooter()) {
     <isdi-header />
     }
     <router-outlet />
-    @if (shouldShowFooter()) {
+    @if (shouldShowHeaderAndFooter()) {
     <isdi-footer />
     }
   `,
@@ -40,14 +40,7 @@ export class AppComponent implements OnDestroy {
     console.log(environment.production);
   }
 
-  shouldShowHeader(): boolean {
-    const currentRoute = this.router.routerState.snapshot.url;
-    return !['/landing', '/login', '/register', '/create-meet'].includes(
-      currentRoute
-    );
-  }
-
-  shouldShowFooter(): boolean {
+  shouldShowHeaderAndFooter(): boolean {
     const currentRoute = this.router.routerState.snapshot.url;
     return !['/landing', '/login', '/register', '/create-meet'].includes(
       currentRoute

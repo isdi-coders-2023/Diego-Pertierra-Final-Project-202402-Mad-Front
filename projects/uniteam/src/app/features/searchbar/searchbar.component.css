@@ -11,7 +11,7 @@
 
 .searchTerm {
   width: 100%;
-  border: 3px solid var(--ut-green);
+  border: 3px solid var(--ut-dark-green);
   border-right: none;
   padding: 5px;
   border-radius: 2rem;
@@ -20,14 +20,14 @@
 }
 
 .searchTerm:focus {
-  color: var(--ut-dark-green);
+  color: var(--ut-dark-dark-green);
 }
 
 .searchButton {
   position: absolute;
   right: 0;
-  border: 1px solid var(--ut-green);
-  background: var(--ut-green);
+  border: 1px solid var(--ut-dark-green);
+  background: var(--ut-dark-green);
   padding-block: 0.5rem;
   padding-inline: 1rem;
   text-align: center;
