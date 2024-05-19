@@ -4,7 +4,7 @@ import { StateService } from './core/services/state.service';
 import { HeaderComponent } from './features/shared/header/header.component';
 import { FooterComponent } from './features/shared/footer/footer.component';
 import { filter } from 'rxjs';
-import { environment } from '../environments/environment';
+import { environment } from '../environments/environment.prod';
 
 @Component({
   selector: 'isdi-root',
