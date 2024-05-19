@@ -186,9 +186,6 @@ export default class ProfileComponent implements OnInit {
         console.log('User updated successfully', user);
         this.showModal = true;
       },
-      error: (error) => {
-        console.error('Failed to update user', error);
-      },
     });
   }
 

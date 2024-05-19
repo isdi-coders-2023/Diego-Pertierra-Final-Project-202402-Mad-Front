@@ -23,6 +23,7 @@ section {
 
 h1 {
   font-size: 3rem;
+  margin-block: 2rem 1rem;
 }
 
 a {
@@ -32,4 +33,12 @@ a {
   border-radius: 2rem;
   margin-block: 1rem;
   cursor: pointer;
+}
+
+isdi-searchbar {
+  margin-block-start: 1rem;
+}
+
+section:last-of-type {
+  padding-block-start: 6rem;
 }

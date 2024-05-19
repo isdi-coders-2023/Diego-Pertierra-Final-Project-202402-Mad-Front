@@ -68,4 +68,21 @@ describe('RepoMeetsService', () => {
     expect(req.request.method).toBe('POST');
     req.flush(testData);
   });
+
+  it('should search Meets by name', () => {
+    const searchTerm = 'Test';
+    const mockMeets: Meet[] = [
+      { id: '1', title: 'Test Meet 1' },
+      { id: '2', title: 'Test Meet 2' },
+    ] as Meet[];
+
+    service.searchByName(searchTerm).subscribe((meets: Meet[]) => {
+      expect(meets.length).toBe(2);
+      expect(meets).toEqual(mockMeets);
+    });
+
+    const req = httpMock.expectOne(`${service.url}?title=${searchTerm}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockMeets);
+  });
 });

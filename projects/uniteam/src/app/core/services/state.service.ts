@@ -198,4 +198,15 @@ export class StateService {
 
     return `${day}-${month}-${year}`;
   }
+
+  searchMeetsByTitle(title: string): void {
+    if (!title || title === '') {
+      this.repoMeets.getAll().subscribe((meets) => {
+        this.state$.next({ ...this.state$.value, meets });
+      });
+    }
+    this.repoMeets.searchByName(title).subscribe((meets) => {
+      this.state$.next({ ...this.state$.value, meets });
+    });
+  }
 }
