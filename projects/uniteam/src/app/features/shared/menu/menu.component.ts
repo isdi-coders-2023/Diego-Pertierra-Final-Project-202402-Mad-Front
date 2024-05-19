@@ -31,16 +31,18 @@ import { filter } from 'rxjs';
         role="button"
       />
       <ul [class]="mobileMenuClass">
-        <img
-          class="close-icon"
-          src="assets/img/icons/close.svg"
-          alt="Icono de cerrar"
-          width="40"
-          tabindex="0"
-          (click)="toggleMobileMenu()"
-          (keyup)="toggleMobileMenu()"
-          role="button"
-        />
+        <li>
+          <img
+            class="close-icon"
+            src="assets/img/icons/close.svg"
+            alt="Icono de cerrar"
+            width="40"
+            tabindex="0"
+            (click)="toggleMobileMenu()"
+            (keyup)="toggleMobileMenu()"
+            role="button"
+          />
+        </li>
         @for (item of items; track $index) { @if (item.path === 'home' ||
         item.path === 'meets') {
         <li>

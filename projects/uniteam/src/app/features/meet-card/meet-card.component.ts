@@ -49,10 +49,12 @@ import { Router } from '@angular/router';
               <p>{{ meetInfo.location }}</p>
             </li>
             <li class="card-attendees">
-              <span>{{
-                meetInfo.attendees ? meetInfo.attendees.length : 0
-              }}</span
-              ><span>apuntados</span>
+              <div>
+                <span>{{
+                  meetInfo.attendees ? meetInfo.attendees.length : 0
+                }}</span
+                ><span>apuntados</span>
+              </div>
               <div>
                 <img
                   src="assets/img/icons/send.svg"
