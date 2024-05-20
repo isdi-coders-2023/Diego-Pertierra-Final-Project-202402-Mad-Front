@@ -34,7 +34,9 @@ describe('RepoUsersService', () => {
     service.login(testData).subscribe((data) => {
       expect(data).toEqual(data);
     });
-    const req = httpMock.expectOne('http://localhost:3400/users/login');
+    const req = httpMock.expectOne(
+      'https://diego-pertierra-final-project-202402-mad.onrender.com/users/login'
+    );
     expect(req.request.method).toBe('POST');
     req.flush(testData);
   });
@@ -45,7 +47,9 @@ describe('RepoUsersService', () => {
     service.getById(testId).subscribe((data) => {
       expect(data).toEqual(testData);
     });
-    const req = httpMock.expectOne(`http://localhost:3400/users/${testId}`);
+    const req = httpMock.expectOne(
+      `https://diego-pertierra-final-project-202402-mad.onrender.com/users/${testId}`
+    );
     expect(req.request.method).toBe('GET');
     req.flush(testData);
   });
@@ -58,7 +62,9 @@ describe('RepoUsersService', () => {
     service.create(testData).subscribe((data) => {
       expect(data).toEqual(testData);
     });
-    const req = httpMock.expectOne(`http://localhost:3400/users/register`);
+    const req = httpMock.expectOne(
+      `https://diego-pertierra-final-project-202402-mad.onrender.com/users/register`
+    );
     expect(req.request.method).toBe('POST');
     req.flush(testData);
   });
@@ -69,7 +75,9 @@ describe('RepoUsersService', () => {
     service.update(testData, userId).subscribe((data) => {
       expect(data).toEqual(testData);
     });
-    const req = httpMock.expectOne(`http://localhost:3400/users/${userId}`);
+    const req = httpMock.expectOne(
+      `https://diego-pertierra-final-project-202402-mad.onrender.com/users/${userId}`
+    );
     expect(req.request.method).toBe('PATCH');
     req.flush(testData);
   });
@@ -81,7 +89,7 @@ describe('RepoUsersService', () => {
       expect(data).toBeTruthy();
     });
     const req = httpMock.expectOne(
-      `http://localhost:3400/users/${userId}/saved-meets/${meetId}`
+      `https://diego-pertierra-final-project-202402-mad.onrender.com/users/${userId}/saved-meets/${meetId}`
     );
     expect(req.request.method).toBe('POST');
     req.flush({});
@@ -94,7 +102,7 @@ describe('RepoUsersService', () => {
       expect(data).toBeTruthy();
     });
     const req = httpMock.expectOne(
-      `http://localhost:3400/users/${userId}/saved-meets/${meetId}`
+      `https://diego-pertierra-final-project-202402-mad.onrender.com/users/${userId}/saved-meets/${meetId}`
     );
     expect(req.request.method).toBe('DELETE');
     req.flush({});
@@ -107,7 +115,7 @@ describe('RepoUsersService', () => {
       expect(data).toBeTruthy();
     });
     const req = httpMock.expectOne(
-      `http://localhost:3400/users/${userId}/joined-meets/${meetId}`
+      `https://diego-pertierra-final-project-202402-mad.onrender.com/users/${userId}/joined-meets/${meetId}`
     );
     expect(req.request.method).toBe('POST');
     req.flush({});
@@ -120,7 +128,7 @@ describe('RepoUsersService', () => {
       expect(data).toBeTruthy();
     });
     const req = httpMock.expectOne(
-      `http://localhost:3400/users/${userId}/joined-meets/${meetId}`
+      `https://diego-pertierra-final-project-202402-mad.onrender.com/users/${userId}/joined-meets/${meetId}`
     );
     expect(req.request.method).toBe('DELETE');
     req.flush({});
@@ -131,7 +139,9 @@ describe('RepoUsersService', () => {
     service.delete(userId).subscribe((data) => {
       expect(data).toBeTruthy();
     });
-    const req = httpMock.expectOne(`http://localhost:3400/users/${userId}`);
+    const req = httpMock.expectOne(
+      `https://diego-pertierra-final-project-202402-mad.onrender.com/users/${userId}`
+    );
     expect(req.request.method).toBe('DELETE');
     req.flush({});
   });
