@@ -64,7 +64,9 @@ describe('RepoMeetsService', () => {
     service.create(testData).subscribe((data) => {
       expect(data).toEqual(testData);
     });
-    const req = httpMock.expectOne(`http://localhost:3400/meets/`);
+    const req = httpMock.expectOne(
+      `https://diego-pertierra-final-project-202402-mad.onrender.com/meets/`
+    );
     expect(req.request.method).toBe('POST');
     req.flush(testData);
   });
