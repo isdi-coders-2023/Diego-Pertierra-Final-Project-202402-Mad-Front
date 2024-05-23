@@ -3,11 +3,12 @@ import { Meet } from '../../core/models/meet.model';
 import { StateService } from '../../core/services/state.service';
 import { User } from '../../core/models/user.model';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'isdi-meet-card',
   standalone: true,
-  imports: [],
+  imports: [DatePipe],
   template: `
     @if (meetInfo) {
     <article
@@ -41,7 +42,7 @@ import { Router } from '@angular/router';
         }
         <li>
           <ul>
-            <li>{{ meetInfo.date }}</li>
+            <li>{{ meetInfo.date | date }}</li>
             <li>
               <h2>{{ meetInfo.title }}</h2>
             </li>

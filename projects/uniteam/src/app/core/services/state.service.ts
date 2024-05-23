@@ -103,12 +103,17 @@ export class StateService {
   }
 
   constructImageUrl(url: string, width: string, height: string) {
-    const urlParts = url.split('/upload/');
-    const firstPart = urlParts[0] + '/upload/';
-    const secondPart = urlParts[1];
-    return (
-      firstPart + 'c_fill,' + 'w_' + width + ',h_' + height + '/' + secondPart
-    );
+    let urlParts;
+    if (url) {
+      urlParts = url.split('/upload/');
+      const firstPart = urlParts![0] + '/upload/';
+      const secondPart = urlParts![1];
+      return (
+        firstPart + 'c_fill,' + 'w_' + width + ',h_' + height + '/' + secondPart
+      );
+    }
+
+    return '';
   }
 
   loadMeets() {

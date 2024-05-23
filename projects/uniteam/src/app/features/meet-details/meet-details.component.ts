@@ -72,7 +72,7 @@ import { ProfileAvatarComponent } from '../shared/profile-avatar/profile-avatar.
           <li>
             @if (attendee.avatar) {
             <isdi-profile-avatar
-              [avatar]="attendee?.avatar!"
+              [avatar]="attendee.avatar"
               [width]="'60'"
               [height]="'60'"
             />

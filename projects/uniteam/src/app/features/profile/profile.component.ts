@@ -91,11 +91,12 @@ import { ConfirmationModalComponent } from '../shared/confirmation-modal/confirm
       <section class="friends-section">
         <h2>Tus amigos</h2>
         @if (currentUser.friends!.length > 0) { @for (friend of
-        currentUser.friends; track $index) {
+        currentUser.friends; track $index) { @if (friend.avatar) {
         <img
           src="{{ state.constructImageUrl(friend.avatar, '50', '50') }}"
           alt="Imagen de amigo"
         />
+        }
         <h3>{{ friend.username }}</h3>
         } }
       </section>
