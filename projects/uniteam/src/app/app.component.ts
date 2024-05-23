@@ -23,7 +23,7 @@ import { environment } from '../environments/environment';
   `,
   styles: `
   main {
-    min-height: 85vh;
+    min-height: 86vh;
   }`,
 })
 export class AppComponent implements OnDestroy {
