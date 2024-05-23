@@ -14,12 +14,17 @@ import { environment } from '../environments/environment';
     @if (shouldShowHeaderAndFooter()) {
     <isdi-header />
     }
-    <router-outlet />
+    <main>
+      <router-outlet />
+    </main>
     @if (shouldShowHeaderAndFooter()) {
     <isdi-footer />
     }
   `,
-  styles: ``,
+  styles: `
+  main {
+    min-height: 85vh;
+  }`,
 })
 export class AppComponent implements OnDestroy {
   stateService = inject(StateService);
