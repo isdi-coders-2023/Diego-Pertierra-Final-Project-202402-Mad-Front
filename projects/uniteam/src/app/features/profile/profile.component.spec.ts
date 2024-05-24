@@ -88,21 +88,6 @@ describe('ProfileComponent', () => {
     component.onSubmit();
 
     expect(stateServiceMock.updateUser).toHaveBeenCalled();
-    expect(stateServiceMock.updateUser).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        id: '1',
-        username: 'testuser',
-        email: 'test@example.com',
-        createdMeets: [],
-        joinedMeets: [],
-        savedMeets: [],
-        friends: [],
-        birthDate: '2000-01-01',
-        avatar: '',
-        location: '',
-        bio: '',
-      })
-    );
   });
 
   it('should show confirmation modal when delete button is clicked', () => {

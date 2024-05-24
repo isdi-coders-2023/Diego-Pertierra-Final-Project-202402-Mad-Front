@@ -26,7 +26,7 @@ describe('HeaderComponent', () => {
           name: 'Test User',
           avatar: 'path_to_avatar.jpg',
         },
-      } as State)
+      } as unknown as State)
     );
 
     await TestBed.configureTestingModule({

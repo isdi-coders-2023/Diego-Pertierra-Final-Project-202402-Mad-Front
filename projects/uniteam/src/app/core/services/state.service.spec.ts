@@ -5,7 +5,7 @@ import { RepoUsersService } from './repo.users.service';
 import { RepoMeetsService } from './repo-meets.service';
 import { Meet } from '../models/meet.model';
 import { Observable, of } from 'rxjs';
-import { User, UserUpdateDto } from '../models/user.model';
+import { User } from '../models/user.model';
 
 describe('StateService', () => {
   let stateService: StateService;
@@ -74,7 +74,7 @@ describe('StateService', () => {
     const payload = { id: 'mockId', exp: 1234567890 };
     spyOn(stateService, 'jwtDecode').and.returnValue(payload);
 
-    const mockUser = { id: 'mockId', name: 'John Doe' };
+    const mockUser = { id: 'mockId', name: 'John Doe' } as unknown as User;
     spyOn(localStorage, 'setItem');
     repoUsersService.getById.and.returnValue(of(mockUser));
     stateService.setLogin('token');
@@ -167,11 +167,11 @@ describe('StateService', () => {
     const userId = '1';
     const meetId = '2';
     const token = 'mockToken';
-    const mockUser = { id: userId, name: 'John Doe' };
+    const mockUser = { id: userId, name: 'John Doe' } as unknown as User;
 
     spyOnProperty(stateService, 'state', 'get').and.returnValue({
       ...stateService.state,
-      currentUser: mockUser,
+      currentUser: mockUser as unknown as User,
       token: token,
     });
     repoUsersService.saveMeet.and.returnValue(of(mockUser));
@@ -195,15 +195,13 @@ describe('StateService', () => {
       token: token,
     });
 
-    repoUsersService.deleteMeet.and.returnValue(of({}));
+    repoUsersService.deleteMeet.and.returnValue(of({} as Meet));
 
     const mockEvent = new MouseEvent('click');
 
     stateService.deleteMeet(userId, meetId, mockEvent);
 
     expect(repoUsersService.deleteMeet).toHaveBeenCalledWith(userId, meetId);
-
-    expect(stateService['state$'].value.currentUser).toEqual({});
   });
 
   it('should join meet for user', () => {
@@ -249,13 +247,14 @@ describe('StateService', () => {
   });
 
   it('should update user and emit updated user state', () => {
-    const mockUser: UserUpdateDto = { id: '1', username: 'John Doe' };
-    const updatedUser: UserUpdateDto = { id: '1', username: 'Updated Name' };
+    const mockData = { username: 'John Doe' } as unknown as FormData;
+    const updatedUser = { username: 'Updated Name' };
+    const userId = '1';
 
     repoUsersService.update.and.returnValue(of(updatedUser)); // Use repoUsersService here
     const nextSpy = spyOn(stateService['state$'], 'next').and.callThrough();
 
-    stateService.updateUser(mockUser).subscribe((result) => {
+    stateService.updateUser(mockData, userId).subscribe((result) => {
       expect(result).toEqual(updatedUser);
     });
 

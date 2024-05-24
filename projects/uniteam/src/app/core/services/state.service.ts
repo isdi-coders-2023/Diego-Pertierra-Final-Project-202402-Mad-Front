@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, filter, map, switchMap } from 'rxjs';
 import { RepoUsersService } from './repo.users.service';
 import { RepoMeetsService } from './repo-meets.service';
 import { Meet } from '../models/meet.model';
-import { User, UserUpdateDto } from '../models/user.model';
+import { User } from '../models/user.model';
 
 type LoginState = 'idle' | 'logging' | 'logged' | 'error';
 
@@ -18,7 +18,7 @@ export type State = {
   loginState: LoginState;
   token: string | null;
   currentPayload: Payload | null;
-  currentUser: unknown | null;
+  currentUser: User | null;
   meets: Meet[];
 };
 
@@ -75,7 +75,7 @@ export class StateService {
           loginState: 'logged',
           token,
           currentPayload,
-          currentUser: user,
+          currentUser: user as User,
         });
         if (this.state.loginState === 'logged') {
           console.log('User logged in');
@@ -132,9 +132,14 @@ export class StateService {
   saveMeet(userId: string, meetId: string, event: Event) {
     event.stopPropagation();
     this.repoUsers.saveMeet(userId, meetId).subscribe((data) => {
+      const currentState = this.state$.value as State;
+      const currentUser = data as User;
       this.state$.next({
-        ...this.state$.value,
-        currentUser: data,
+        ...currentState,
+        currentUser: {
+          ...currentState.currentUser,
+          savedMeets: currentUser.savedMeets,
+        } as User,
       });
     });
   }
@@ -142,9 +147,14 @@ export class StateService {
   deleteMeet(userId: string, meetId: string, event: Event) {
     event.stopPropagation();
     this.repoUsers.deleteMeet(userId, meetId).subscribe((data) => {
+      const currentState = this.state$.value as State;
+      const currentUser = data as User;
       this.state$.next({
-        ...this.state$.value,
-        currentUser: data,
+        ...currentState,
+        currentUser: {
+          ...currentState.currentUser,
+          savedMeets: currentUser.savedMeets,
+        } as User,
       });
     });
   }
@@ -153,7 +163,7 @@ export class StateService {
     this.repoUsers.joinMeet(userId, meetId).subscribe((data) => {
       this.state$.next({
         ...this.state$.value,
-        currentUser: data,
+        currentUser: data as User,
       });
     });
     this.meetState.next(this.meets);
@@ -163,7 +173,7 @@ export class StateService {
     this.repoUsers.leaveMeet(userId, meetId).subscribe((data) => {
       this.state$.next({
         ...this.state$.value,
-        currentUser: data,
+        currentUser: data as User,
       });
     });
     this.meetState.next(this.meets);
@@ -176,12 +186,12 @@ export class StateService {
     return false;
   }
 
-  updateUser(user: UserUpdateDto): Observable<UserUpdateDto> {
-    return this.repoUsers.update(user, user.id as string).pipe(
+  updateUser(user: FormData, userId: string) {
+    return this.repoUsers.update(user, userId).pipe(
       map((updatedUser) => {
         const currentState = this.state$.value;
-        this.state$.next({ ...currentState, currentUser: updatedUser });
-        return updatedUser as UserUpdateDto;
+        this.state$.next({ ...currentState, currentUser: updatedUser as User });
+        return updatedUser;
       })
     );
   }
@@ -190,7 +200,7 @@ export class StateService {
     return this.repoUsers.delete(userId).subscribe((data) => {
       this.state$.next({
         ...this.state$.value,
-        currentUser: data,
+        currentUser: data as User,
       });
     });
   }

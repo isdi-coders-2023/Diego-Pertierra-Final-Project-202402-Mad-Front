@@ -5,6 +5,7 @@
   height: 300px;
   font-family: 'Montserrat', monospace;
   border-radius: 1rem;
+  text-align: left;
   cursor: pointer;
 }
 

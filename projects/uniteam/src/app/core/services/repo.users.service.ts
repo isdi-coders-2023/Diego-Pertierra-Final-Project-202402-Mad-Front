@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
-import { User, UserLoginDto } from '../models/user.model';
+import { UserLoginDto } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,11 +19,12 @@ export class RepoUsersService {
   }
 
   create(data: FormData) {
+    console.log(data);
     const url = this.url + '/register';
     return this.httpClient.post(url, data);
   }
 
-  update(data: Partial<User>, userId: string) {
+  update(data: FormData, userId: string) {
     return this.httpClient.patch(this.url + '/' + userId, data);
   }
 
