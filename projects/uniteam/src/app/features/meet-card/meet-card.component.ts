@@ -3,12 +3,12 @@ import { Meet } from '../../core/models/meet.model';
 import { StateService } from '../../core/services/state.service';
 import { User } from '../../core/models/user.model';
 import { Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'isdi-meet-card',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe, AsyncPipe],
   template: `
     @if (meetInfo) {
     <article
@@ -24,9 +24,11 @@ import { DatePipe } from '@angular/common';
     >
       <ul class="meet-card-content">
         <li class="meet-filters">
+          @if (meetInfo.sport) {
           <span>{{
             meetInfo.sport.charAt(0).toUpperCase() + meetInfo.sport.slice(1)
           }}</span>
+          }
         </li>
         @if (this.cardDeleteState) {
         <img
@@ -99,6 +101,8 @@ export class MeetCardComponent implements OnInit {
   }
 
   goToDetails(id: string) {
-    this.router.navigate([`/meets/${id}`]);
+    this.state.getState().subscribe((data) => {
+      if (data.loginState === 'logged') this.router.navigate([`/meets/${id}`]);
+    });
   }
 }

@@ -6,6 +6,7 @@ import { UserOptionsComponent } from '../shared/user-options/user-options.compon
 import { User } from '../../core/models/user.model';
 import { ButtonComponent } from '../shared/button/button.component';
 import { ProfileAvatarComponent } from '../shared/profile-avatar/profile-avatar.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'isdi-meet-details',
@@ -47,7 +48,7 @@ import { ProfileAvatarComponent } from '../shared/profile-avatar/profile-avatar.
             alt="Icono de fecha"
             width="25"
           />
-          <p>{{ meetDetails.date }}</p>
+          <p>{{ meetDetails.date | date }}</p>
         </div>
         <div class="details-container">
           <img
@@ -87,7 +88,12 @@ import { ProfileAvatarComponent } from '../shared/profile-avatar/profile-avatar.
     }
   `,
   styleUrl: './meet-details.component.css',
-  imports: [UserOptionsComponent, ButtonComponent, ProfileAvatarComponent],
+  imports: [
+    DatePipe,
+    UserOptionsComponent,
+    ButtonComponent,
+    ProfileAvatarComponent,
+  ],
 })
 export default class MeetDetailsComponent implements OnInit {
   stateSrv = inject(StateService);

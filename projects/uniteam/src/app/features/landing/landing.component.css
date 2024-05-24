@@ -40,5 +40,9 @@ isdi-searchbar {
 }
 
 section:last-of-type {
-  padding-block-start: 6rem;
+  padding-block-start: 4rem;
+}
+
+isdi-meet-list {
+  padding-block-end: 4rem;
 }

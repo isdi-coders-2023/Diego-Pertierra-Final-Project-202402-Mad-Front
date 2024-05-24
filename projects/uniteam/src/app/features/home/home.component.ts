@@ -14,7 +14,7 @@ import { MeetListComponent } from '../meet-list/meet-list.component';
     <section>
       @if (currentUser) {
       <h2>
-        Bienvenido, <strong>{{ currentUser.username }}</strong>
+        Bienvenid&#64;, <strong>{{ currentUser.username }}</strong>
       </h2>
       }
 

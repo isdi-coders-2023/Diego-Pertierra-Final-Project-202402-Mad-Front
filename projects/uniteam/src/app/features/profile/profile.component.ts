@@ -172,6 +172,7 @@ export default class ProfileComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.profileForm.value);
     const fd = new FormData();
     fd.append('username', this.profileForm.value.username);
     fd.append('email', this.profileForm.value.email);
@@ -181,8 +182,7 @@ export default class ProfileComponent implements OnInit {
     fd.append('location', this.profileForm.value.location);
     fd.append('bio', this.profileForm.value.bio);
 
-    const updatedUser = { ...this.currentUser, ...fd };
-    return this.state.updateUser(updatedUser).subscribe({
+    return this.state.updateUser(fd, this.currentUser.id).subscribe({
       next: (user) => {
         console.log('User updated successfully', user);
         this.showModal = true;
