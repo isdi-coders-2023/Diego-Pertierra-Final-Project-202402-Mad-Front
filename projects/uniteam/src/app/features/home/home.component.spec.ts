@@ -24,7 +24,7 @@ describe('HomeComponent', () => {
       of({
         loginState: 'logged',
         currentUser: { name: 'Test User' },
-      } as State)
+      } as unknown as State)
     );
 
     await TestBed.configureTestingModule({

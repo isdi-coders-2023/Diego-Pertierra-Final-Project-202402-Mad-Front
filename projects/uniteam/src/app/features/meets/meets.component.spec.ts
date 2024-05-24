@@ -25,7 +25,7 @@ describe('MeetsComponent', () => {
       of({
         loginState: 'logged',
         currentUser: { name: 'Test User' },
-      } as State)
+      } as unknown as State)
     );
 
     stateServiceMock.loadMeets();

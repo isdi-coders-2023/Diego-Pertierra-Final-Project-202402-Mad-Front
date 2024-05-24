@@ -65,7 +65,7 @@ describe('RepoUsersService', () => {
 
   it('should update user data', () => {
     const userId = '1';
-    const testData: Partial<User> = { username: 'UpdatedName' };
+    const testData: FormData = { username: 'ejemplo' } as unknown as FormData;
     service.update(testData, userId).subscribe((data) => {
       expect(data).toEqual(testData);
     });
