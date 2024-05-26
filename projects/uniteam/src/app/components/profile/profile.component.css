@@ -107,3 +107,26 @@ form {
 .friends-section {
   margin-block: 3rem;
 }
+
+.friends-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding-block-start: 1rem;
+
+  h3 {
+    font-size: 0.9rem;
+  }
+}
+
+.password-control {
+  position: relative;
+}
+
+.password-visibility {
+  top: 2.25rem;
+  right: 5px;
+  position: absolute;
+  border: none;
+  background: none;
+}

@@ -39,3 +39,8 @@ ul {
 a {
   text-decoration: none;
 }
+
+input:focus {
+  outline: 2px solid var(--ut-green);
+  box-shadow: 0 0 10px var(--ut-green);
+}

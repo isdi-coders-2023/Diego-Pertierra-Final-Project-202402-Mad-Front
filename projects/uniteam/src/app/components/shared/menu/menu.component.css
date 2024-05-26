@@ -95,6 +95,7 @@ hr {
       font-size: 1.2rem;
       font-weight: 600;
       transition: 0.25s color;
+      cursor: pointer;
       &:hover {
         color: var(--ut-green);
       }

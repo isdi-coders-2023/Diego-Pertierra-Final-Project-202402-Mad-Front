@@ -5,48 +5,49 @@ export const routes: Routes = [
   {
     path: 'landing',
     title: 'Landing',
-    loadComponent: () => import('./features/landing/landing.component'),
+    loadComponent: () => import('./components/landing/landing.component'),
   },
   {
     path: 'home',
     title: 'Home',
-    loadComponent: () => import('./features/home/home.component'),
+    loadComponent: () => import('./components/home/home.component'),
   },
   {
     path: 'login',
     title: 'Login',
-    loadComponent: () => import('./features/login/login.component'),
+    loadComponent: () => import('./components/login/login.component'),
   },
   {
     path: 'register',
     title: 'Registro',
-    loadComponent: () => import('./features/register/register.component'),
+    loadComponent: () => import('./components/register/register.component'),
   },
   {
     path: 'meets',
     title: 'Quedadas',
-    loadComponent: () => import('./features/meets/meets.component'),
+    loadComponent: () => import('./components/meets/meets.component'),
   },
   {
     path: 'meets/:id',
     title: 'Quedada',
     loadComponent: () =>
-      import('./features/meet-details/meet-details.component'),
+      import('./components/meet-details/meet-details.component'),
   },
   {
     path: 'profile',
     title: 'Perfil',
-    loadComponent: () => import('./features/profile/profile.component'),
+    loadComponent: () => import('./components/profile/profile.component'),
   },
   {
     path: 'create-meet',
     title: 'Nueva quedada',
-    loadComponent: () => import('./features/create-meet/create-meet.component'),
+    loadComponent: () =>
+      import('./components/create-meet/create-meet.component'),
   },
   {
     path: 'error',
     title: 'Error',
-    loadComponent: () => import('./features/error/error.component'),
+    loadComponent: () => import('./components/error/error.component'),
   },
   { path: '**', redirectTo: 'error' },
 ];
