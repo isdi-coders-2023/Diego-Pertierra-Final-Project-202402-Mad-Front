@@ -61,10 +61,26 @@ import { ConfirmationModalComponent } from '../shared/confirmation-modal/confirm
             <input type="text" formControlName="username" />
           </label>
         </section>
-        <section class="form-control">
+        <section class="form-control password-control">
           <label>
             <span>Contraseña</span>
-            <input type="password" formControlName="password" />
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+            />
+            <button
+              type="button"
+              class="password-visibility"
+              (click)="togglePasswordVisibility()"
+            >
+              <img
+                src="assets/img/icons/{{
+                  showPassword ? 'see-password' : 'hide-password'
+                }}.png"
+                alt="Icono de mostrar u ocultar contraseña"
+                width="25"
+              />
+            </button>
           </label>
         </section>
         <section class="form-control">
@@ -90,15 +106,20 @@ import { ConfirmationModalComponent } from '../shared/confirmation-modal/confirm
       </form>
       <section class="friends-section">
         <h2>Tus amigos</h2>
-        @if (currentUser.friends!.length > 0) { @for (friend of
-        currentUser.friends; track $index) { @if (friend.avatar) {
-        <img
-          src="{{ state.constructImageUrl(friend.avatar, '50', '50') }}"
-          alt="Imagen de amigo"
-        />
-        }
-        <h3>{{ friend.username }}</h3>
-        } }
+        <div class="friends-container">
+          @if (currentUser.friends!.length > 0) { @for (friend of
+          currentUser.friends; track $index) {
+          <div>
+            @if (friend.avatar) {
+            <img
+              src="{{ state.constructImageUrl(friend.avatar, '50', '50') }}"
+              alt="Imagen de amigo"
+            />
+            }
+            <h3>{{ friend.username }}</h3>
+          </div>
+          } }
+        </div>
       </section>
       <isdi-info-modal
         [isModalOpen]="showModal"
@@ -137,12 +158,17 @@ export default class ProfileComponent implements OnInit {
   @ViewChild('avatar') avatar!: ElementRef;
   showModal = false;
   showConfirmationModal = false;
+  showPassword = false;
 
   ngOnInit() {
     this.state.getState().subscribe((state) => {
       this.currentUser = state.currentUser as User;
       this.initializeForm(this.currentUser);
     });
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   initializeForm(user: UserUpdateDto) {
@@ -152,8 +178,8 @@ export default class ProfileComponent implements OnInit {
         username: [user.username, Validators.required],
         email: [user.email, [Validators.required, Validators.email]],
         password: [user.password],
-        avatar: [null],
-        birthDate: [null],
+        avatar: [user.avatar],
+        birthDate: [user.birthDate],
         location: [user.location],
         bio: [user.bio],
       });

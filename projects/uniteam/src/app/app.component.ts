@@ -1,8 +1,8 @@
 import { Component, OnDestroy, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { StateService } from './core/services/state.service';
-import { HeaderComponent } from './features/shared/header/header.component';
-import { FooterComponent } from './features/shared/footer/footer.component';
+import { HeaderComponent } from './components/shared/header/header.component';
+import { FooterComponent } from './components/shared/footer/footer.component';
 import { filter } from 'rxjs';
 import { environment } from '../environments/environment';
 

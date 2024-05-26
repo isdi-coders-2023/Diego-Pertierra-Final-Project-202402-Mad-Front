@@ -79,3 +79,15 @@ label {
   font-size: 1.2rem;
   width: 100%;
 }
+
+.password-control {
+  position: relative;
+}
+
+.password-visibility {
+  top: 2.9rem;
+  right: 5px;
+  position: absolute;
+  border: none;
+  background: none;
+}
