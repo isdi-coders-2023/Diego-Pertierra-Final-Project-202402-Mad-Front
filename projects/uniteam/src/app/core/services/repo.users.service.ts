@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
-import { UserLoginDto } from '../models/user.model';
+import { User, UserLoginDto } from '../models/user.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,10 @@ import { UserLoginDto } from '../models/user.model';
 export class RepoUsersService {
   httpClient = inject(HttpClient);
   url = environment.API_URL + `/users`;
+
+  getUsers() {
+    return this.httpClient.get<User[]>(this.url);
+  }
 
   login(data: UserLoginDto) {
     return this.httpClient.post<{ token: string }>(this.url + '/login', data);
@@ -30,6 +35,10 @@ export class RepoUsersService {
 
   delete(userId: string) {
     return this.httpClient.delete(`${this.url}/${userId}`);
+  }
+
+  searchUserByName(username: string): Observable<User[]> {
+    return this.httpClient.get<User[]>(this.url + '?username=' + username);
   }
 
   saveMeet(userId: string, meetId: string) {

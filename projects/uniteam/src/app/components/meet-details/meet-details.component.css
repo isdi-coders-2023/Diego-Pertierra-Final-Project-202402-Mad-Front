@@ -1,6 +1,8 @@
 .meet-details-body {
   padding-block-end: 1rem;
   padding-inline: 1.5rem;
+  max-width: 120ch;
+  margin: 0 auto;
 }
 
 h2 {
@@ -23,7 +25,7 @@ section {
 
 .user-info {
   display: flex;
-  justify-content: space-between;
+  gap: 1rem;
   align-items: center;
   margin-block: 0.5rem;
 
@@ -55,4 +57,21 @@ section {
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem;
+}
+
+@media (width > 800px) {
+  .meet-img-container {
+    height: 30rem;
+  }
+
+  .meet-img-container + div {
+    width: 90ch;
+  }
+
+  .main-section {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    width: 100%;
+  }
 }

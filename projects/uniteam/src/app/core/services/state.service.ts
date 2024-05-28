@@ -19,6 +19,7 @@ export type State = {
   token: string | null;
   currentPayload: Payload | null;
   currentUser: User | null;
+  users: User[];
   meets: Meet[];
 };
 
@@ -27,6 +28,7 @@ const initialState: State = {
   token: null,
   currentPayload: null,
   currentUser: null,
+  users: [],
   meets: [],
 };
 
@@ -50,6 +52,30 @@ export class StateService {
 
   get state(): State {
     return this.state$.value;
+  }
+
+  fetchAndSortUsers() {
+    this.repoUsers
+      .getUsers()
+      .pipe(
+        map((users) =>
+          users.sort((a, b) => a.username.localeCompare(b.username))
+        )
+      )
+      .subscribe((users) => {
+        this.state$.next({ ...this.state$.value, users });
+      });
+  }
+
+  searchUsers(username: string): void {
+    if (!username || username === '') {
+      this.repoUsers.getUsers().subscribe((users) => {
+        this.state$.next({ ...this.state$.value, users });
+      });
+    }
+    this.repoUsers.searchUserByName(username).subscribe((users) => {
+      this.state$.next({ ...this.state$.value, users });
+    });
   }
 
   setRoutes() {
@@ -108,9 +134,7 @@ export class StateService {
       urlParts = url.split('/upload/');
       const firstPart = urlParts![0] + '/upload/';
       const secondPart = urlParts![1];
-      return (
-        firstPart + 'c_fill,' + 'w_' + width + ',h_' + height + '/' + secondPart
-      );
+      return `${firstPart}c_fill,f_auto,w_${width},h_${height}/${secondPart}`;
     }
 
     return '';

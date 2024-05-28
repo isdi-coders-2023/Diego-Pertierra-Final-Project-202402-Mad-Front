@@ -30,7 +30,10 @@ import { StateService } from '../../core/services/state.service';
           [routerLink]="'/register'"
           routerLinkActive="active"
         />
-        <isdi-searchbar (searchSubmitted)="showMeetsSection()" />
+        <isdi-searchbar
+          (searchSubmitted)="showMeetsSection()"
+          [searchType]="'meets'"
+        />
       </section>
       @if (showSection) {
       <section #meetSection>

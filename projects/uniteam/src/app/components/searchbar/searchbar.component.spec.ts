@@ -18,6 +18,8 @@ describe('SearchbarComponent', () => {
     const stateSpy = jasmine.createSpyObj('StateService', [
       'searchMeetsByTitle',
       'loadMeets',
+      'searchUsers',
+      'fetchAndSortUsers',
     ]);
 
     await TestBed.configureTestingModule({
@@ -39,11 +41,32 @@ describe('SearchbarComponent', () => {
 
   it('should call searchMeetsByTitle when searchTerm is not empty', fakeAsync(() => {
     component.searchTerm = 'Test';
+    component.searchType = 'meets';
     component.onSearch(new Event('submit'));
     tick();
 
     expect(stateServiceSpy.searchMeetsByTitle).toHaveBeenCalledWith('Test');
     expect(stateServiceSpy.loadMeets).not.toHaveBeenCalled();
+  }));
+
+  it('should call searchUsers when searchTerm is not empty and searchType is users', fakeAsync(() => {
+    component.searchTerm = 'TestUser';
+    component.searchType = 'users';
+    component.onSearch(new Event('submit'));
+    tick();
+
+    expect(stateServiceSpy.searchUsers).toHaveBeenCalledWith('TestUser');
+    expect(stateServiceSpy.fetchAndSortUsers).not.toHaveBeenCalled();
+  }));
+
+  it('should call fetchAndSortUsers when searchTerm is empty and searchType is users', fakeAsync(() => {
+    component.searchTerm = '';
+    component.searchType = 'users';
+    component.onSearch(new Event('submit'));
+    tick();
+
+    expect(stateServiceSpy.fetchAndSortUsers).toHaveBeenCalled();
+    expect(stateServiceSpy.searchUsers).not.toHaveBeenCalled();
   }));
 
   it('should emit searchSubmitted event on search', () => {

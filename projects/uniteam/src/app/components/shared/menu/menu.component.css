@@ -13,13 +13,13 @@ nav {
   background-color: var(--ut-green);
   height: 100vh;
   width: 100%;
-  padding-block-start: 4rem;
+  padding-block-start: 2rem;
   padding-inline-start: 2rem;
   transform: translateY(-100%);
   transition: 0.35s transform;
   z-index: 9;
 
-  li {
+  li:not(:last-child) {
     padding-block-end: 1rem;
   }
 
@@ -72,7 +72,7 @@ hr {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-block: 1rem;
+  padding-block: 0.5rem;
   padding-inline: 1.5rem;
   background-color: var(--ut-dark-green);
 
@@ -116,8 +116,8 @@ hr {
 
 .profile-menu {
   position: absolute;
-  right: 2rem;
-  top: 4.5rem;
+  right: 1.5rem;
+  top: 4.6rem;
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
@@ -130,14 +130,13 @@ hr {
 }
 
 .profile-menu.open::before {
-  /* Create a triangle */
   content: '';
   position: absolute;
-  top: -25px; /* Position above the profile menu */
-  right: 5px; /* Adjust as needed */
+  top: -25px;
+  right: 5px;
   border-width: 15px;
   border-style: solid;
-  border-color: transparent transparent var(--ut-green) transparent; /* Triangle color */
+  border-color: transparent transparent var(--ut-green) transparent;
 }
 
 .profile-menu.open {
@@ -152,19 +151,17 @@ hr {
     transition: 0.25s color;
 
     &:hover {
-      color: rgb(207, 20, 20);
+      color: var(--ut-white);
     }
   }
 }
 
 @keyframes slideAndFade {
   0% {
-    /* Start from a higher position and fully transparent */
     transform: translateY(-1.2rem);
     opacity: 0;
   }
   100% {
-    /* End at original position and fully opaque */
     transform: translateY(0);
     opacity: 1;
   }

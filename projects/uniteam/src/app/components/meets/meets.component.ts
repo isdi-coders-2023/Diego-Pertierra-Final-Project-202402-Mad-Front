@@ -9,7 +9,7 @@ import { SearchbarComponent } from '../searchbar/searchbar.component';
   selector: 'isdi-meets',
   standalone: true,
   template: `
-    <isdi-searchbar />
+    <isdi-searchbar [searchType]="'meets'" />
     <div>
       <h2>Todas las quedadas</h2>
       <button [routerLink]="'/create-meet'">Crear quedada</button>

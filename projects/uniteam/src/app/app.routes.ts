@@ -34,6 +34,11 @@ export const routes: Routes = [
       import('./components/meet-details/meet-details.component'),
   },
   {
+    path: 'users',
+    title: 'Usuarios',
+    loadComponent: () => import('./components/users/users.component'),
+  },
+  {
     path: 'profile',
     title: 'Perfil',
     loadComponent: () => import('./components/profile/profile.component'),

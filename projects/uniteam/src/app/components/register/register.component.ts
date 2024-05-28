@@ -46,10 +46,26 @@ import { SubmitBtnComponent } from '../shared/submit-btn/submit-btn.component';
           <input type="email" formControlName="email" />
         </label>
       </div>
-      <div class="form-control">
+      <div class="form-control password-control">
         <label>
           <span>Contraseña</span>
-          <input type="password" formControlName="password" />
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+          />
+          <button
+            type="button"
+            class="password-visibility"
+            (click)="togglePasswordVisibility()"
+          >
+            <img
+              src="assets/img/icons/{{
+                showPassword ? 'see-password' : 'hide-password'
+              }}.png"
+              alt="Icono de mostrar u ocultar contraseña"
+              width="25"
+            />
+          </button>
         </label>
       </div>
       <div class="form-control file-control">
@@ -112,10 +128,11 @@ export default class RegisterComponent {
   registerForm: FormGroup;
   imageUrl: string | null = null;
   @ViewChild('avatar') avatar!: ElementRef;
+  showPassword = false;
 
   constructor() {
     this.imageUrl =
-      'https://res.cloudinary.com/dehkeqyua/image/upload/w_80,h_80,c_fill/v1715275478/uniteam/sample.jpg';
+      'https://res.cloudinary.com/dehkeqyua/image/upload/w_80,h_80,c_fill/v1715275478/uniteam/sample.webp';
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', Validators.required],
@@ -126,6 +143,10 @@ export default class RegisterComponent {
       gender: ['', Validators.required],
       bio: [''],
     });
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   onFileChange() {
