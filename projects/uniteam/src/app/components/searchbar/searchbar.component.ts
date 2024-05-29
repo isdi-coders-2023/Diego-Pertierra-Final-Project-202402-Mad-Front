@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { StateService } from '../../core/services/state.service';
 
+type SearchType = 'meets' | 'users';
+
 @Component({
   selector: 'isdi-searchbar',
   standalone: true,
@@ -28,7 +30,7 @@ export class SearchbarComponent {
   private state = inject(StateService);
   @Output() searchSubmitted = new EventEmitter<void>();
   searchTerm: string = '';
-  @Input() searchType: string = 'meets' || 'users';
+  @Input() searchType!: SearchType;
 
   onSearch(event: Event) {
     event.preventDefault();

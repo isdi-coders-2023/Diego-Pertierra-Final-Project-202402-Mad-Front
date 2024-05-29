@@ -78,6 +78,7 @@ input {
   border-radius: 0.4rem;
   border: grey solid 0.1px;
   padding-inline-start: 1rem;
+  padding-inline-end: 0.5rem;
 }
 
 .custom-file-input {
@@ -128,10 +129,6 @@ input[type='checkbox'],
 label {
   display: inline-block;
   width: initial;
-}
-
-input {
-  padding-inline-end: 0.5rem;
 }
 
 select {

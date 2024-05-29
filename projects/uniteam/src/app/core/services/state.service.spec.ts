@@ -25,6 +25,8 @@ describe('StateService', () => {
       'leaveMeet',
       'loadMeetById',
       'hasMeet',
+      'getUsers',
+      'searchUserByName',
     ]);
 
     const repoMeetsSpy = jasmine.createSpyObj('RepoMeetsService', [
@@ -66,8 +68,8 @@ describe('StateService', () => {
   });
 
   it('should set login state', () => {
-    stateService.setLoginState('logging');
-    expect(stateService.state.loginState).toEqual('logging');
+    stateService.setLoginState('logged');
+    expect(stateService.state.loginState).toEqual('logged');
   });
 
   it('should set login', () => {
@@ -312,4 +314,65 @@ describe('StateService', () => {
 
     expect(repoMeetsService.searchByName).toHaveBeenCalledWith(searchTerm);
   });
+
+  it('should fetch and sort users', () => {
+    const mockUsers: User[] = [
+      { username: 'Charlie', id: '3' } as User,
+      { username: 'Alice', id: '1' } as User,
+      { username: 'Bob', id: '2' } as User,
+    ];
+    const sortedUsers: User[] = [
+      { username: 'Alice', id: '1' } as User,
+      { username: 'Bob', id: '2' } as User,
+      { username: 'Charlie', id: '3' } as User,
+    ];
+
+    repoUsersService.getUsers.and.returnValue(of(mockUsers));
+    const nextSpy = spyOn(stateService['state$'], 'next').and.callThrough();
+
+    stateService.fetchAndSortUsers();
+
+    expect(repoUsersService.getUsers).toHaveBeenCalled();
+    expect(nextSpy).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        users: sortedUsers,
+      })
+    );
+  });
+
+  it('should search users by username and update state$', () => {
+    const searchTerm = 'test';
+    const mockUsers: User[] = [
+      { username: 'Alice', id: '1' } as User,
+      { username: 'Bob', id: '2' } as User,
+    ];
+
+    repoUsersService.searchUserByName.and.returnValue(of(mockUsers));
+
+    stateService.searchUsers(searchTerm);
+
+    stateService.getState().subscribe((state) => {
+      expect(state.users).toEqual(mockUsers);
+    });
+
+    expect(repoUsersService.searchUserByName).toHaveBeenCalledWith(searchTerm);
+  });
+
+  // it('should fetch all users when search term is empty', () => {
+  //   const searchTerm = '';
+  //   const mockUsers: User[] = [
+  //     { username: 'Alice', id: '1' } as User,
+  //     { username: 'Bob', id: '2' } as User,
+  //   ];
+
+  //   repoUsersService.getUsers.and.returnValue(of(mockUsers));
+
+  //   stateService.searchUsers(searchTerm);
+
+  //   stateService.getState().subscribe((state) => {
+  //     expect(state.users).toEqual(mockUsers);
+  //   });
+
+  //   expect(repoUsersService.searchUserByName).toHaveBeenCalledWith(searchTerm);
+  // });
 });
