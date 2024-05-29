@@ -25,6 +25,8 @@ describe('StateService', () => {
       'leaveMeet',
       'loadMeetById',
       'hasMeet',
+      'getUsers',
+      'searchUserByName',
     ]);
 
     const repoMeetsSpy = jasmine.createSpyObj('RepoMeetsService', [
@@ -66,8 +68,8 @@ describe('StateService', () => {
   });
 
   it('should set login state', () => {
-    stateService.setLoginState('logging');
-    expect(stateService.state.loginState).toEqual('logging');
+    stateService.setLoginState('logged');
+    expect(stateService.state.loginState).toEqual('logged');
   });
 
   it('should set login', () => {
@@ -99,7 +101,7 @@ describe('StateService', () => {
   it('should return filtered and mapped routes', () => {
     const result = stateService.setRoutes();
 
-    expect(result.length).toBe(9);
+    expect(result.length).toBe(10);
     expect(result).toEqual([
       { title: 'Landing', path: 'landing' },
       { title: 'Home', path: 'home' },
@@ -107,6 +109,7 @@ describe('StateService', () => {
       { title: 'Registro', path: 'register' },
       { title: 'Quedadas', path: 'meets' },
       { title: 'Quedada', path: 'meets/:id' },
+      { title: 'Usuarios', path: 'users' },
       { title: 'Perfil', path: 'profile' },
       { title: 'Nueva quedada', path: 'create-meet' },
       { title: 'Error', path: 'error' },
@@ -135,7 +138,7 @@ describe('StateService', () => {
     const width = '300';
     const height = '300';
     const expectedUrl =
-      'https://example.com/upload/c_fill,w_300,h_300/image.jpg';
+      'https://example.com/upload/c_fill,f_auto,w_300,h_300/image.jpg';
     expect(stateService.constructImageUrl(url, width, height)).toEqual(
       expectedUrl
     );
@@ -311,4 +314,65 @@ describe('StateService', () => {
 
     expect(repoMeetsService.searchByName).toHaveBeenCalledWith(searchTerm);
   });
+
+  it('should fetch and sort users', () => {
+    const mockUsers: User[] = [
+      { username: 'Charlie', id: '3' } as User,
+      { username: 'Alice', id: '1' } as User,
+      { username: 'Bob', id: '2' } as User,
+    ];
+    const sortedUsers: User[] = [
+      { username: 'Alice', id: '1' } as User,
+      { username: 'Bob', id: '2' } as User,
+      { username: 'Charlie', id: '3' } as User,
+    ];
+
+    repoUsersService.getUsers.and.returnValue(of(mockUsers));
+    const nextSpy = spyOn(stateService['state$'], 'next').and.callThrough();
+
+    stateService.fetchAndSortUsers();
+
+    expect(repoUsersService.getUsers).toHaveBeenCalled();
+    expect(nextSpy).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        users: sortedUsers,
+      })
+    );
+  });
+
+  it('should search users by username and update state$', () => {
+    const searchTerm = 'test';
+    const mockUsers: User[] = [
+      { username: 'Alice', id: '1' } as User,
+      { username: 'Bob', id: '2' } as User,
+    ];
+
+    repoUsersService.searchUserByName.and.returnValue(of(mockUsers));
+
+    stateService.searchUsers(searchTerm);
+
+    stateService.getState().subscribe((state) => {
+      expect(state.users).toEqual(mockUsers);
+    });
+
+    expect(repoUsersService.searchUserByName).toHaveBeenCalledWith(searchTerm);
+  });
+
+  // it('should fetch all users when search term is empty', () => {
+  //   const searchTerm = '';
+  //   const mockUsers: User[] = [
+  //     { username: 'Alice', id: '1' } as User,
+  //     { username: 'Bob', id: '2' } as User,
+  //   ];
+
+  //   repoUsersService.getUsers.and.returnValue(of(mockUsers));
+
+  //   stateService.searchUsers(searchTerm);
+
+  //   stateService.getState().subscribe((state) => {
+  //     expect(state.users).toEqual(mockUsers);
+  //   });
+
+  //   expect(repoUsersService.searchUserByName).toHaveBeenCalledWith(searchTerm);
+  // });
 });

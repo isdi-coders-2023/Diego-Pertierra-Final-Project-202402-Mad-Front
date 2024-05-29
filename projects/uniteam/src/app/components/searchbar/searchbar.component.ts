@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { StateService } from '../../core/services/state.service';
+
+type SearchType = 'meets' | 'users';
 
 @Component({
   selector: 'isdi-searchbar',
@@ -29,14 +30,24 @@ export class SearchbarComponent {
   private state = inject(StateService);
   @Output() searchSubmitted = new EventEmitter<void>();
   searchTerm: string = '';
+  @Input() searchType!: SearchType;
 
   onSearch(event: Event) {
     event.preventDefault();
-    if (this.searchTerm.trim()) {
-      this.state.searchMeetsByTitle(this.searchTerm);
-    } else {
-      this.state.loadMeets();
+    if (this.searchType === 'meets') {
+      if (this.searchTerm.trim()) {
+        this.state.searchMeetsByTitle(this.searchTerm);
+      } else {
+        this.state.loadMeets();
+      }
+    } else if (this.searchType === 'users') {
+      if (this.searchTerm.trim()) {
+        this.state.searchUsers(this.searchTerm);
+      } else {
+        this.state.fetchAndSortUsers();
+      }
     }
+
     this.searchSubmitted.emit();
   }
 }

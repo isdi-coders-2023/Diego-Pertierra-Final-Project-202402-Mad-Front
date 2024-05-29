@@ -4,11 +4,12 @@ import { StateService } from '../../core/services/state.service';
 import { User } from '../../core/models/user.model';
 import { Router } from '@angular/router';
 import { AsyncPipe, DatePipe } from '@angular/common';
+import { CapitalizeFirstPipe } from '../../core/pipes/capitalize-first.pipe';
 
 @Component({
   selector: 'isdi-meet-card',
   standalone: true,
-  imports: [DatePipe, AsyncPipe],
+  imports: [DatePipe, AsyncPipe, CapitalizeFirstPipe],
   template: `
     @if (meetInfo) {
     <article
@@ -25,9 +26,7 @@ import { AsyncPipe, DatePipe } from '@angular/common';
       <ul class="meet-card-content">
         <li class="meet-filters">
           @if (meetInfo.sport) {
-          <span>{{
-            meetInfo.sport.charAt(0).toUpperCase() + meetInfo.sport.slice(1)
-          }}</span>
+          <span>{{ meetInfo.sport | capitalizeFirst }}</span>
           }
         </li>
         @if (this.cardDeleteState) {
@@ -44,7 +43,7 @@ import { AsyncPipe, DatePipe } from '@angular/common';
         }
         <li>
           <ul>
-            <li>{{ meetInfo.date | date }}</li>
+            <li>{{ meetInfo.date | date : 'fullDate' | capitalizeFirst }}</li>
             <li>
               <h2>{{ meetInfo.title }}</h2>
             </li>
@@ -101,8 +100,9 @@ export class MeetCardComponent implements OnInit {
   }
 
   goToDetails(id: string) {
-    this.state.getState().subscribe((data) => {
+    const stateSubscription = this.state.getState().subscribe((data) => {
       if (data.loginState === 'logged') this.router.navigate([`/meets/${id}`]);
     });
+    stateSubscription.unsubscribe();
   }
 }

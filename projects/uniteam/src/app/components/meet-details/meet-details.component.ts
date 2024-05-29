@@ -7,6 +7,7 @@ import { User } from '../../core/models/user.model';
 import { ButtonComponent } from '../shared/button/button.component';
 import { ProfileAvatarComponent } from '../shared/profile-avatar/profile-avatar.component';
 import { DatePipe } from '@angular/common';
+import { CapitalizeFirstPipe } from '../../core/pipes/capitalize-first.pipe';
 
 @Component({
   selector: 'isdi-meet-details',
@@ -32,36 +33,42 @@ import { DatePipe } from '@angular/common';
           <h3>{{ meetDetails.creator.username }}</h3>
         </div>
       </section>
-      <div class="meet-img-container">
-        <img
-          src="{{
-            this.stateSrv.constructImageUrl(meetDetails.image, '400', '400')
-          }}"
-          alt="Imagen de la quedada"
-          class="meet-img"
-        />
-      </div>
-      <section>
-        <div class="details-container">
+      <section class="main-section">
+        <div class="meet-img-container">
           <img
-            src="assets/img/icons/date.svg"
-            alt="Icono de fecha"
-            width="25"
+            src="{{
+              this.stateSrv.constructImageUrl(meetDetails.image, '600', '600')
+            }}"
+            alt="Imagen de la quedada"
+            class="meet-img"
           />
-          <p>{{ meetDetails.date | date }}</p>
         </div>
-        <div class="details-container">
-          <img
-            src="assets/img/icons/location.svg"
-            alt="Icono de ubicación"
-            width="25"
-          />
-          <p>{{ meetDetails.location }}</p>
+        <div>
+          <section>
+            <div class="details-container">
+              <img
+                src="assets/img/icons/date.svg"
+                alt="Icono de fecha"
+                width="25"
+              />
+              <p>
+                {{ meetDetails.date | date : 'fullDate' | capitalizeFirst }}
+              </p>
+            </div>
+            <div class="details-container">
+              <img
+                src="assets/img/icons/location.svg"
+                alt="Icono de ubicación"
+                width="25"
+              />
+              <p>{{ meetDetails.location }}</p>
+            </div>
+          </section>
+          <section>
+            <h3>Descripción</h3>
+            <p>{{ meetDetails.description }}</p>
+          </section>
         </div>
-      </section>
-      <section>
-        <h3>Descripción</h3>
-        <p>{{ meetDetails.description }}</p>
       </section>
       <section>
         <h3>Asistentes</h3>
@@ -93,6 +100,7 @@ import { DatePipe } from '@angular/common';
     UserOptionsComponent,
     ButtonComponent,
     ProfileAvatarComponent,
+    CapitalizeFirstPipe,
   ],
 })
 export default class MeetDetailsComponent implements OnInit {

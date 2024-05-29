@@ -44,7 +44,7 @@ import { filter } from 'rxjs';
           />
         </li>
         @for (item of items; track $index) { @if (item.path === 'home' ||
-        item.path === 'meets') {
+        item.path === 'meets' || item.path === 'users') {
         <li>
           <a [routerLink]="'/' + item.path" routerLinkActive="active">{{
             item.title
@@ -74,7 +74,7 @@ import { filter } from 'rxjs';
       <ul class="desktop-menu">
         <div class="desktop-links">
           @for (item of items; track $index) { @if (item.path === 'home' ||
-          item.path === 'meets') {
+          item.path === 'meets' || item.path === 'users') {
           <li>
             <a [routerLink]="'/' + item.path" routerLinkActive="active">{{
               item.title
