@@ -66,4 +66,17 @@ export class RepoUsersService {
       `${this.url}/${userId}/joined-meets/${meetId}`
     );
   }
+
+  addFriend(userId: string, friendId: string) {
+    return this.httpClient.post(
+      `${this.url}/${userId}/add-friend/${friendId}`,
+      {}
+    );
+  }
+
+  deleteFriend(userId: string, friendId: string) {
+    return this.httpClient.delete(
+      `${this.url}/${userId}/add-friend/${friendId}`
+    );
+  }
 }

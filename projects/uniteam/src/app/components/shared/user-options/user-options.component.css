@@ -2,10 +2,10 @@
   position: sticky;
   bottom: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  gap: 2rem;
   width: 100%;
-  max-width: 800px;
   margin: 0 auto;
   padding-block: 0.5rem;
   padding-inline: 1.5rem;
@@ -14,4 +14,10 @@
 
 img {
   cursor: pointer;
+}
+
+@media (width > 500px) {
+  .user-options {
+    gap: 5rem;
+  }
 }

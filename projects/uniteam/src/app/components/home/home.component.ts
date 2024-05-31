@@ -34,9 +34,9 @@ import { EmptyContentComponent } from '../empty-content/empty-content.component'
         [meetList]="currentUser.savedMeets"
         [cardDeleteState]="true"
       />
-      } @if (currentUser.savedMeets.length === 0) {
+      @if (currentUser.savedMeets.length === 0) {
       <isdi-empty-content [label]="'has guardado ninguna quedada'" />
-      } }
+      } } }
     </section>
     }
   `,

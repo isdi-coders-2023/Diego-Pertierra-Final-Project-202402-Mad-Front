@@ -185,22 +185,30 @@ export class StateService {
 
   joinMeet(userId: string, meetId: string) {
     this.repoUsers.joinMeet(userId, meetId).subscribe((data) => {
+      const currentState = this.state$.value as State;
+      const currentUser = data as User;
       this.state$.next({
-        ...this.state$.value,
-        currentUser: data as User,
+        ...currentState,
+        currentUser: {
+          ...currentState.currentUser,
+          joinedMeets: currentUser.joinedMeets,
+        } as User,
       });
     });
-    this.meetState.next(this.meets);
   }
 
   leaveMeet(userId: string, meetId: string) {
     this.repoUsers.leaveMeet(userId, meetId).subscribe((data) => {
+      const currentState = this.state$.value as State;
+      const currentUser = data as User;
       this.state$.next({
-        ...this.state$.value,
-        currentUser: data as User,
+        ...currentState,
+        currentUser: {
+          ...currentState.currentUser,
+          joinedMeets: currentUser.joinedMeets,
+        } as User,
       });
     });
-    this.meetState.next(this.meets);
   }
 
   hasMeet(user: User, meetId: string): boolean {
@@ -247,5 +255,48 @@ export class StateService {
     this.repoMeets.searchByName(title).subscribe((meets) => {
       this.state$.next({ ...this.state$.value, meets });
     });
+  }
+
+  isFriend(user: User, friendId: string) {
+    const isFriend = user.friends.some((friend) => friend.id === friendId);
+    return isFriend;
+  }
+
+  addFriend(user: User, friendId: string) {
+    if (!this.isFriend(user, friendId) && user.id !== friendId) {
+      this.repoUsers.addFriend(user.id, friendId).subscribe((data) => {
+        const currentState = this.state$.value as State;
+        const currentUser = data as User;
+        this.state$.next({
+          ...currentState,
+          currentUser: {
+            ...currentState.currentUser,
+            friends: currentUser.friends,
+          } as User,
+        });
+      });
+      console.log('friend added!');
+    } else {
+      console.log('error adding friend');
+    }
+  }
+
+  deleteFriend(user: User, friendId: string) {
+    if (this.isFriend(user, friendId)) {
+      this.repoUsers.deleteFriend(user.id, friendId).subscribe((data) => {
+        const currentState = this.state$.value as State;
+        const currentUser = data as User;
+        this.state$.next({
+          ...currentState,
+          currentUser: {
+            ...currentState.currentUser,
+            friends: currentUser.friends,
+          } as User,
+        });
+      });
+      console.log('friend deleted!');
+    } else {
+      console.log('error deleting friend');
+    }
   }
 }

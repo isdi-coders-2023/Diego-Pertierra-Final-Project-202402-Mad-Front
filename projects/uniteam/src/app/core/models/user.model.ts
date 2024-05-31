@@ -15,7 +15,7 @@ export type User = {
   joinedMeets: Meet[];
   createdMeets: Meet[];
   savedMeets: Meet[];
-  friends?: User[];
+  friends: User[];
   comments?: Comment[];
 };
 

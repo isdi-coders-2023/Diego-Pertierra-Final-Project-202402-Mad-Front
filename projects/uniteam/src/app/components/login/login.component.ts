@@ -106,7 +106,6 @@ export default class LoginComponent {
     this.repo.login(userLogin).subscribe({
       next: ({ token }) => {
         this.state.setLogin(token);
-        console.log('Logged in', token);
         this.router.navigate(['/home']);
       },
       error: (err) => {

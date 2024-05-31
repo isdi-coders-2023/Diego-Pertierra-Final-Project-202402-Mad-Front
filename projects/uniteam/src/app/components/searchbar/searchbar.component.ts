@@ -14,7 +14,7 @@ type SearchType = 'meets' | 'users';
         <input
           type="text"
           class="searchTerm"
-          placeholder="Buscar quedadas"
+          placeholder="Buscar {{ placeholder }}"
           [(ngModel)]="searchTerm"
           name="searchTerm"
         />
@@ -31,6 +31,7 @@ export class SearchbarComponent {
   @Output() searchSubmitted = new EventEmitter<void>();
   searchTerm: string = '';
   @Input() searchType!: SearchType;
+  @Input() placeholder!: string;
 
   onSearch(event: Event) {
     event.preventDefault();
