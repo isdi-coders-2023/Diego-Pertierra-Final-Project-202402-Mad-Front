@@ -50,7 +50,7 @@ import { ConfirmationModalComponent } from '../shared/confirmation-modal/confirm
         <section>
           @if (imageUrl) {
           <div class="img-container">
-            <img src="{{ imageUrl }}" alt="Imagen de perfil" width="70" />
+            <img src="{{ imageUrl }}" alt="Imagen de perfil" />
           </div>
           }
           <input type="file" #avatar (change)="onFileChange()" />
@@ -109,7 +109,7 @@ import { ConfirmationModalComponent } from '../shared/confirmation-modal/confirm
         <div class="friends-container">
           @if (currentUser.friends!.length > 0) { @for (friend of
           currentUser.friends; track $index) {
-          <div>
+          <div class="friend">
             @if (friend.avatar) {
             <img
               src="{{ state.constructImageUrl(friend.avatar, '50', '50') }}"
@@ -117,6 +117,14 @@ import { ConfirmationModalComponent } from '../shared/confirmation-modal/confirm
             />
             }
             <h3>{{ friend.username }}</h3>
+            <button (click)="state.deleteFriend(currentUser, friend.id)">
+              <img
+                src="assets/img/icons/close-red.svg"
+                alt="Icono de eliminar usuario"
+                class="close-btn"
+                width="25"
+              />
+            </button>
           </div>
           } }
         </div>

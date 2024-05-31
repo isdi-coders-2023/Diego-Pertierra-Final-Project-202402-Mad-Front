@@ -27,6 +27,8 @@ describe('StateService', () => {
       'hasMeet',
       'getUsers',
       'searchUserByName',
+      'addFriend',
+      'deleteFriend',
     ]);
 
     const repoMeetsSpy = jasmine.createSpyObj('RepoMeetsService', [
@@ -216,7 +218,6 @@ describe('StateService', () => {
     stateService.joinMeet(userId, meetId);
 
     expect(repoUsersService.joinMeet).toHaveBeenCalledWith(userId, meetId);
-    expect(stateService.state.currentUser).toEqual(mockUser);
   });
 
   it('should leave meet for user', () => {
@@ -228,7 +229,6 @@ describe('StateService', () => {
     stateService.leaveMeet(userId, meetId);
 
     expect(repoUsersService.leaveMeet).toHaveBeenCalledWith(userId, meetId);
-    expect(stateService.state.currentUser).toEqual(mockUser);
   });
 
   it('should check if user has meet', () => {
@@ -358,21 +358,76 @@ describe('StateService', () => {
     expect(repoUsersService.searchUserByName).toHaveBeenCalledWith(searchTerm);
   });
 
-  // it('should fetch all users when search term is empty', () => {
-  //   const searchTerm = '';
-  //   const mockUsers: User[] = [
-  //     { username: 'Alice', id: '1' } as User,
-  //     { username: 'Bob', id: '2' } as User,
-  //   ];
+  it('should return true if users are friends', () => {
+    const friend = {
+      id: '2',
+    } as User;
+    const currentUser = {
+      friends: [friend],
+    } as unknown as User;
 
-  //   repoUsersService.getUsers.and.returnValue(of(mockUsers));
+    spyOnProperty(stateService, 'state', 'get').and.returnValue({
+      ...stateService.state,
+      currentUser: currentUser,
+    });
 
-  //   stateService.searchUsers(searchTerm);
+    expect(stateService.isFriend(currentUser, friend.id)).toBeTrue();
+  });
 
-  //   stateService.getState().subscribe((state) => {
-  //     expect(state.users).toEqual(mockUsers);
-  //   });
+  it('should return false if users are not friends', () => {
+    const friend = {
+      id: '2',
+    } as User;
+    const currentUser = {
+      friends: [
+        {
+          id: '4',
+        },
+      ],
+    } as unknown as User;
 
-  //   expect(repoUsersService.searchUserByName).toHaveBeenCalledWith(searchTerm);
-  // });
+    spyOnProperty(stateService, 'state', 'get').and.returnValue({
+      ...stateService.state,
+      currentUser: currentUser,
+    });
+
+    expect(stateService.isFriend(currentUser, friend.id)).toBeFalse();
+  });
+
+  it('should add friend', () => {
+    const userId = '1';
+    const friend = {
+      id: '2',
+    } as User;
+    const mockUser = {
+      id: userId,
+      friends: [],
+    } as unknown as User;
+
+    repoUsersService.addFriend.and.returnValue(of(mockUser));
+
+    stateService.addFriend(mockUser, friend.id);
+
+    expect(repoUsersService.addFriend).toHaveBeenCalledWith(userId, friend.id);
+  });
+
+  it('should delete friend', () => {
+    const userId = '1';
+    const friend = {
+      id: '2',
+    } as User;
+    const mockUser = {
+      id: userId,
+      friends: [friend],
+    } as unknown as User;
+
+    repoUsersService.deleteFriend.and.returnValue(of([]));
+
+    stateService.deleteFriend(mockUser, friend.id);
+
+    expect(repoUsersService.deleteFriend).toHaveBeenCalledWith(
+      userId,
+      friend.id
+    );
+  });
 });

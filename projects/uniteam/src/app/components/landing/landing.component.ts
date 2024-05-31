@@ -33,6 +33,7 @@ import { StateService } from '../../core/services/state.service';
         <isdi-searchbar
           (searchSubmitted)="showMeetsSection()"
           [searchType]="'meets'"
+          [placeholder]="'quedadas'"
         />
       </section>
       @if (showSection) {

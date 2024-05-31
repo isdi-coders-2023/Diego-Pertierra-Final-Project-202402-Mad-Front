@@ -55,9 +55,19 @@ export class UserOptionsComponent implements OnChanges {
 
   onClickJoin() {
     this.state.joinMeet(this.user.id, this.meetDetails.id);
+    if (
+      !this.meetDetails.attendees.some(
+        (attendee) => attendee.id === this.user.id
+      )
+    ) {
+      this.meetDetails.attendees.push(this.user);
+    }
   }
 
   onClickLeave() {
     this.state.leaveMeet(this.user.id, this.meetDetails.id);
+    this.meetDetails.attendees = this.meetDetails.attendees.filter(
+      (attendee) => attendee.id !== this.user.id
+    );
   }
 }

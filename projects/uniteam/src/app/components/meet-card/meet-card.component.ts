@@ -52,10 +52,10 @@ import { CapitalizeFirstPipe } from '../../core/pipes/capitalize-first.pipe';
             </li>
             <li class="card-attendees">
               <div>
-                <span>{{
-                  meetInfo.attendees ? meetInfo.attendees.length : 0
-                }}</span
-                ><span>apuntados</span>
+                @if (meetInfo.attendees) {
+                <span>{{ meetInfo.attendees.length }}</span>
+                }
+                <span>apuntados</span>
               </div>
               <div>
                 <img

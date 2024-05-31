@@ -34,8 +34,8 @@ describe('UserOptionsComponent', () => {
 
     fixture = TestBed.createComponent(UserOptionsComponent);
     component = fixture.componentInstance;
-    component.user = { id: userId, avatar: 'avatar_url' } as User; // Set user input
-    component.meetDetails = { id: meetId } as Meet;
+    component.user = { id: userId, avatar: 'avatar_url' } as User;
+    component.meetDetails = { id: meetId, attendees: [] } as unknown as Meet;
     fixture.detectChanges();
   });
 
