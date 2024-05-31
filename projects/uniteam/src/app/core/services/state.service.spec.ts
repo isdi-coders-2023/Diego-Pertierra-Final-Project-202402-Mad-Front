@@ -411,6 +411,23 @@ describe('StateService', () => {
     expect(repoUsersService.addFriend).toHaveBeenCalledWith(userId, friend.id);
   });
 
+  it('should throw error adding friend', () => {
+    const userId = '2';
+    const friend = {
+      id: '2',
+    } as User;
+    const mockUser = {
+      id: userId,
+      friends: [],
+    } as unknown as User;
+
+    repoUsersService.addFriend.and.returnValue(of(mockUser));
+
+    stateService.addFriend(mockUser, friend.id);
+
+    expect(repoUsersService.addFriend).not.toHaveBeenCalled();
+  });
+
   it('should delete friend', () => {
     const userId = '1';
     const friend = {
@@ -429,5 +446,22 @@ describe('StateService', () => {
       userId,
       friend.id
     );
+  });
+
+  it('should throw error deleting friend', () => {
+    const userId = '1';
+    const friend = {
+      id: '2',
+    } as User;
+    const mockUser = {
+      id: userId,
+      friends: [friend],
+    } as unknown as User;
+
+    repoUsersService.deleteFriend.and.returnValue(of([]));
+
+    stateService.deleteFriend(mockUser, '3');
+
+    expect(repoUsersService.deleteFriend).not.toHaveBeenCalled();
   });
 });
